@@ -1,0 +1,43 @@
+<body>
+  <h2>All Products</h2>
+
+<div id="products_container"></div>
+
+<h2>Real Time Products List</h2>
+
+<h3>PRODUCTS</h3>
+
+<form id="add_form" action=""  style="display: flex;flex-direction:column;">
+  <h4>Add Product</h4> 
+  Product:
+  <input type="text" name="product" id="product" />
+  Description:
+  <input type="text" name="description" id="description" />
+  Price:
+  <input type="number" name="price" id="price" />
+  Thumbnail:
+  <input type="text" name="thumbnail" id="thumbnail" />
+  Code:
+  <input type="text" name="code" id="code" />
+  Stock:
+  <input type="number" name="stock" id="stock" />
+
+  <input type="submit" value="Add" />
+</form>
+
+<form id="delete_product">
+  <h4>Delete product</h4>
+  Enter product id to delete it:
+  <input type="number" name="id" id="product_id">
+
+  <input type="submit" value="Delete">
+
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>
+</body>
+
+
+
+
