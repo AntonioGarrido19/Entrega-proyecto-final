@@ -14,6 +14,7 @@ const productsContainer = document.getElementById("products_container");
 const deleteForm = document.getElementById("delete_product");
 const productId = document.getElementById("product_id");
 
+
 socketClient.on("products", (products) => {
   //console.log(products);
   const allProducts = products
@@ -30,6 +31,7 @@ socketClient.on("products", (products) => {
     })
     .join(" ");
   productsContainer.innerHTML = allProducts;
+
 });
 
 addForm.onsubmit = (e) => {
@@ -51,12 +53,11 @@ addForm.onsubmit = (e) => {
 
 socketClient.on("added", (newProduct) => {
   const addedProductHTML = `
-    <p>
-    Product: ${newProduct.title}
-    Description: ${newProduct.description}
-    Price: ${newProduct.price}
-    ID: ${newProduct.id}
-    </p>`;
+      <p>
+        Product: ${newProduct.title}
+        Description: ${newProduct.description}
+        Price: ${newProduct.price}
+      </p>`
 
   productsContainer.innerHTML += addedProductHTML;
 });
