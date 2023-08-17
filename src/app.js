@@ -81,12 +81,12 @@ socketServer.on("connection", (socket) => {
     return product;
   });
 
-  socket.on("deleteProduct", async idProductDelete => {
+  socket.on("deleteProduct", async (idProductDelete) => {
     const parsedId = parseInt(idProductDelete, 10)
-    socketServer.emit("deleted", parsedId)
     console.log("ID", parsedId);
     const deletedProduct = await productManager.deleteProduct(parsedId)
     console.log(deletedProduct);
+    socketServer.emit("deleted", parsedId)
     return deletedProduct
   });
 });

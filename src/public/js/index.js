@@ -19,12 +19,14 @@ socketClient.on("products", (products) => {
   const allProducts = products
     .map((objProducts) => {
       return `
+      <div data-product-id="${objProducts.id}">
         <p>
         Product: ${objProducts.title}
         Description: ${objProducts.description}
         Price: ${objProducts.price}
         Id: ${objProducts.id}
-        </p>`;
+        </p>
+        </div>`;
     })
     .join(" ");
   productsContainer.innerHTML = allProducts;
@@ -53,6 +55,7 @@ socketClient.on("added", (newProduct) => {
     Product: ${newProduct.title}
     Description: ${newProduct.description}
     Price: ${newProduct.price}
+    ID: ${newProduct.id}
     </p>`;
 
   productsContainer.innerHTML += addedProductHTML;
@@ -65,3 +68,10 @@ deleteForm.onsubmit = (e) => {
 
   socketClient.emit("deleteProduct", idProductDelete);
 };
+
+socketClient.on("deleted", (deletedProductId) => {
+  const productToDelete = document.querySelector(`[data-product-id="${deletedProductId}"]`)
+  if (productToDelete) {
+    productToDelete.remove();
+  }
+})
