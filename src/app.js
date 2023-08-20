@@ -3,11 +3,16 @@ import { __dirname } from "./utils.js";
 import handlebars from "express-handlebars";
 import viewsRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
+import './db/dbConfig.js'
 
-import productsRouter from "./routes/products.router.js";
-import cartsRouter from "./routes/carts.router.js";
 
-import productManager from "./ProductManager.js";
+// import productsRouter from "./routes/products.router.js";
+import productsRouter from "./routes/products.router.mongo.js";
+// import cartsRouter from "./routes/carts.router.js";
+import cartsRouter from "./routes/carts.router.mongo.js";
+
+
+import productManager from "./db/managers/products/ProductManager.js";
 
 const app = express();
 
@@ -57,13 +62,6 @@ let getAllProducts = async () => {
   }
 };
 
-// (async () => {
-//   try {
-//     const products = await getAllProducts();
-  
-//     //console.log(fetchedProducts);
-//   } catch (error) {}
-// })();
 
 getAllProducts();
 
@@ -80,6 +78,7 @@ socketServer.on("connection", (socket) => {
     const product = await productManager.addProduct(newProduct);
     console.log(product);
     return product;
+    
   });
 
   socket.on("deleteProduct", async (idProductDelete) => {
