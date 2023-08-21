@@ -76,10 +76,14 @@ socketServer.on("connection", (socket) => {
   socketServer.emit("products", fetchedProducts);
 
   socket.on("newProduct", async (newProduct) => {
-    socketServer.emit("added", newProduct);
-    const product = await productManager.addProduct(newProduct);
-    console.log(product);
-    return product;
+    try { 
+      const product = await productManager.addProduct(newProduct);
+      socketServer.emit("added", product);
+      return product;
+      
+    } catch (error) {
+      return error
+    }
   });
 
   socket.on("deleteProduct", async (idProductDelete) => {

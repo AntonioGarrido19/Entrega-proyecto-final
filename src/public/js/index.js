@@ -51,16 +51,19 @@ addForm.onsubmit = (e) => {
   socketClient.emit("newProduct", newProduct);
 };
 
-socketClient.on("added", (newProduct) => {
+socketClient.on("added", (product) => {
   const addedProductHTML = `
       <p>
-        Product: ${newProduct.title}
-        Description: ${newProduct.description}
-        Price: ${newProduct.price}
-      </p>`
-
+      Product: ${product.title}
+      Description: ${product.description}
+      Price: ${product.price}
+      Id: ${product.id}
+      </p>`;
   productsContainer.innerHTML += addedProductHTML;
 });
+
+
+
 
 deleteForm.onsubmit = (e) => {
   e.preventDefault();

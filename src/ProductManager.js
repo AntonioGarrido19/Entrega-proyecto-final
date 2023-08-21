@@ -52,6 +52,8 @@ class ProductManager {
       }
       productsPrev.push({ ...obj, id });
       await fs.promises.writeFile(this.path, JSON.stringify(productsPrev));
+      console.log("Product before return:", { ...obj, id });
+      return { ...obj, id };
     } catch (error) {
       console.log(error.message);
       throw error;
