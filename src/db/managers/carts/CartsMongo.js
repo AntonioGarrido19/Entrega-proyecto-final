@@ -10,41 +10,41 @@ class CartsMongo {
     }
   }
 
-  async createOne() {
+  async createOne(obj) {
     try {
-      const carts = await cartsModel.create(obj);
-      return carts;
+      const cart = await cartsModel.create(obj);
+      return cart;
     } catch (error) {
       return error;
     }
   }
 
-  async findById() {
+  async findById(id) {
     try {
-      const carts = await cartsModel.findById(id);
-      return carts;
+      const cart = await cartsModel.findById(id).populate('products');
+      return cart;
     } catch (error) {
       return error;
     }
   }
 
-  async updateOne() {
-    try {
-      const response = await cartsModel.updateOne({ _id: id }, { ...obj });
-      return response;
-    } catch (error) {
-      return error;
-    }
-  }
+//   async updateOne(id, obj) {
+//     try {
+//       const response = await cartsModel.updateOne({ _id: id }, { ...obj });
+//       return response;
+//     } catch (error) {
+//       return error;
+//     }
+//   }
 
-  async deleteOne() {
-    try {
-      const response = await cartsModel.findByIdAndDelete(id);
-      return response;
-    } catch (error) {
-      return error;
-    }
-  }
+//   async deleteOne(id) {
+//     try {
+//       const response = await cartsModel.findByIdAndDelete(id);
+//       return response;
+//     } catch (error) {
+//       return error;
+//     }
+//   }
 }
 
 export const cartsMongo = new CartsMongo()
