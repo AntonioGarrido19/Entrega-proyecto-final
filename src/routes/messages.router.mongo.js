@@ -1,16 +1,16 @@
 import { Router } from "express"
-import {messagesMongo} from "../db/managers/products/MessagessMongo.js"
+import {messagesMongo} from "../db/managers/messages/MessagesMongo.js"
 
 const router = Router()
 
 
 router.get('/', async(req, res) => {
     try {
-        const products = await productsMongo.findAll()
+        const messages = await messagesMongo.findAll()
         if(products.length){
-        res.status(200).json({message:'Products', products})
+        res.status(200).json({message:'Messages', messages})
     }else{
-        res.status(200).json({message:'No users found'})
+        res.status(200).json({message:'No messages found'})
     }
     } catch (error) {
         res.status(500).json({error})
@@ -20,11 +20,11 @@ router.get('/', async(req, res) => {
 router.get('/:id', async(req, res) => {
     const {id} = req.params
     try {
-        const product = await productsMongo.findById(id)
+        const message = await messagesMongo.findById(id)
         if(!product){
-            res.status(400).json({message:'Invalid ID'})
+            res.status(400).json({message:'Invalid message ID'})
         } else {
-            res.status(200).json({message:'Product found', product})
+            res.status(200).json({message:'message found', message})
         }
         
     } catch (error) {
@@ -33,13 +33,13 @@ router.get('/:id', async(req, res) => {
 })
 
 router.post('/', async(req, res) => {
-    const {title, description, price, thumbnail, code, stock} = req.body
-    if(!title  || !description  || !price  || !thumbnail  || !code  || !stock){
+    const {message, user} = req.body
+    if(!user  || !message){
        return res.status(200).json({message:'Some data is missing'})
     }
     try {
-        const newProduct = await productsMongo.createOne(req.body)
-        res.status(200).json({message:'Product created', product: newProduct})
+        const newMessage = await messagesMongo.createOne(req.body)
+        res.status(200).json({message:'message created', message: newMessage})
 
     } catch (error) {
         res.status(500).json({error})

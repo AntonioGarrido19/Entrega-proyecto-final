@@ -4,7 +4,7 @@ class ProductsMongo {
 
     async findAll(){
         try {
-            const products = await productsModel.find({})
+            const products = await productsModel.find({}).lean()
             return products
         } catch (error) {
             return error

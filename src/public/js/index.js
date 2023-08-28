@@ -15,17 +15,18 @@ const deleteForm = document.getElementById("delete_product");
 const productId = document.getElementById("product_id");
 
 
+//REAL TIME PRODUCTS
 socketClient.on("products", (products) => {
   //console.log(products);
   const allProducts = products
     .map((objProducts) => {
       return `
-      <div data-product-id="${objProducts.id}">
+      <div data-product-id="${objProducts._id}">
         <p>
         Product: ${objProducts.title}
         Description: ${objProducts.description}
         Price: ${objProducts.price}
-        Id: ${objProducts.id}
+        Id: ${objProducts._id}
         </p>
         </div>`;
     })
@@ -57,6 +58,7 @@ socketClient.on("added", (newProduct) => {
         Product: ${newProduct.title}
         Description: ${newProduct.description}
         Price: ${newProduct.price}
+        ID: ${newProduct._id}
       </p>`
 
   productsContainer.innerHTML += addedProductHTML;
@@ -76,3 +78,8 @@ socketClient.on("deleted", (deletedProductId) => {
     productToDelete.remove();
   }
 })
+
+
+
+
+
