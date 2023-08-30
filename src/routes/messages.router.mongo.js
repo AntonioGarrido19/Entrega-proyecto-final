@@ -1,5 +1,5 @@
 import { Router } from "express"
-import {messagesMongo} from "../db/managers/messages/MessagesMongo.js"
+import {messagesMongo} from "../dao/managers/messages/MessagesMongo.js"
 
 const router = Router()
 
@@ -16,6 +16,22 @@ router.get('/', async(req, res) => {
         res.status(500).json({error})
     }
 })
+
+export const fetchedMessages = [];
+
+let getAllMessages= async () => {
+  try {
+    const messages = await messagesMongo.findAll();
+    fetchedMessages.push(...messages);
+    console.log(fetchedMessages);
+    return messages;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+getAllMessages();
+
 
 router.get('/:id', async(req, res) => {
     const {id} = req.params

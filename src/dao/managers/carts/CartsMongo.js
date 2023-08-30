@@ -1,4 +1,5 @@
-import { cartsModel } from "../../models/carts-model.js";
+import { cartsModel } from "../../../db/models/carts-model.js";
+
 
 class CartsMongo {
   async findAll() {

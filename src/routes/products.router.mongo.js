@@ -1,21 +1,37 @@
 import { Router } from "express"
-import {productsMongo} from "../db/managers/products/ProductsMongo.js"
+import {productsMongo} from "../dao/managers/products/ProductsMongo.js"
 
 const router = Router()
 
+export const fetchedProducts = [];
 
 router.get('/', async(req, res) => {
     try {
         const products = await productsMongo.findAll()
         if(products.length){
-        res.status(200).json({message:'Products', products})
+        console.log("Rendering home:", products);
+        res.render("home", { products });
     }else{
-        res.status(200).json({message:'No users found'})
+        res.status(200).json({message:'No products found'})
     }
     } catch (error) {
         res.status(500).json({error})
     }
 })
+
+
+let getAllProducts = async () => {
+  try {
+    const products = await productsMongo.findAll();
+    fetchedProducts.push(...products);
+    console.log(fetchedProducts);
+    return products;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+getAllProducts();
 
 router.get('/:id', async(req, res) => {
     const {id} = req.params

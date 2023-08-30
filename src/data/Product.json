@@ -1,0 +1,146 @@
+[
+  {
+    "title": "Mouse",
+    "description": "Red",
+    "price": 200,
+    "thumbnail": "none",
+    "code": "aadvvd88",
+    "stock": 5,
+    "id": 2
+  },
+  {
+    "title": "Keyboard",
+    "description": "Red",
+    "price": 300,
+    "thumbnail": "none",
+    "code": "aadvvd",
+    "stock": 5,
+    "id": 7
+  },
+  {
+    "title": "Keyboard",
+    "description": "Red",
+    "price": 300,
+    "thumbnail": "none",
+    "code": "aasjjadvvd",
+    "stock": 5,
+    "id": 8
+  },
+  {
+    "title": "Planta",
+    "description": "",
+    "price": "",
+    "thumbnail": "",
+    "code": "",
+    "stock": "",
+    "id": 12
+  },
+  {
+    "title": "Planta",
+    "description": "Verde",
+    "price": "23213",
+    "thumbnail": "none",
+    "code": "R2YS3Bww",
+    "stock": "22",
+    "id": 13
+  },
+  {
+    "title": "Phone",
+    "description": "oajaj",
+    "price": "123",
+    "thumbnail": "none",
+    "code": "R2YS3Bss",
+    "stock": "22",
+    "id": 14
+  },
+  {
+    "title": "Phone22",
+    "description": "oajaj",
+    "price": "123",
+    "thumbnail": "none",
+    "code": "R2YS3Bss23",
+    "stock": "22",
+    "id": 15
+  },
+  {
+    "title": "Tabla",
+    "description": "G",
+    "price": "123",
+    "thumbnail": "none",
+    "code": "sadfff",
+    "stock": "1",
+    "id": 16
+  },
+  {
+    "title": "Suitcase",
+    "description": "Negra",
+    "price": "55",
+    "thumbnail": "none",
+    "code": "oodiiissddd",
+    "stock": "22",
+    "id": 17
+  },
+  {
+    "title": "Suitcase",
+    "description": "Negra",
+    "price": "55",
+    "thumbnail": "none",
+    "code": "oodiiissddd22",
+    "stock": "221",
+    "id": 18
+  },
+  {
+    "title": "Suitcase",
+    "description": "Negra",
+    "price": "55",
+    "thumbnail": "none",
+    "code": "oodiiissddd22ss66",
+    "stock": "221",
+    "id": 20
+  },
+  {
+    "title": "TazaGrande",
+    "description": "BLancaRoja",
+    "price": "9000",
+    "thumbnail": "none",
+    "code": "9sf92j92233",
+    "stock": "8",
+    "id": 27
+  },
+  {
+    "title": "Caja",
+    "description": "Grande",
+    "price": "899",
+    "thumbnail": "none",
+    "code": "9288499",
+    "stock": "2",
+    "id": 28
+  },
+  {
+    "title": "Caja Carton",
+    "description": "Grande",
+    "price": "899",
+    "thumbnail": "none",
+    "code": "928849922",
+    "stock": "2",
+    "id": 29
+  },
+  {
+    "title": "Caja Carton Blanca",
+    "description": "Grande",
+    "price": "899",
+    "thumbnail": "none",
+    "code": "92884992222",
+    "stock": "2",
+    "id": 30
+  },
+  {
+    "title": "Cargador",
+    "description": "blanco",
+    "price": "89948",
+    "thumbnail": "none",
+    "code": "049irr",
+    "stock": "2",
+    "id": 31
+  }
+]

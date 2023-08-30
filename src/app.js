@@ -2,6 +2,7 @@ import express from "express";
 import { __dirname } from "./utils.js";
 import handlebars from "express-handlebars";
 import viewsRouter from "./routes/views.router.js";
+import productsRouter from "./routes/products.router.mongo.js";
 import { Server } from "socket.io";
 import "./db/dbConfig.js";
 
@@ -12,8 +13,11 @@ import "./db/dbConfig.js";
 // import messagesRouter from "./routes/messages.router.mongo.js";
 
 // import productManager from "./db/managers/products/ProductManager.js";
-import { productsMongo } from "./db/managers/products/ProductsMongo.js";
-import { messagesMongo } from "./db/managers/messages/MessagesMongo.js";
+import { productsMongo } from "./dao/managers/products/ProductsMongo.js";
+import {fetchedProducts} from "./routes/products.router.mongo.js";
+
+import { messagesMongo } from "./dao/managers/messages/MessagesMongo.js";
+import { fetchedMessages } from "./routes/messages.router.mongo.js";
 
 const app = express();
 
@@ -31,58 +35,27 @@ const PORT = 8080;
 //rutas
 // app.use("/api/products", productsRouter);
 // app.use("/api/carts", cartsRouter);
+app.use("/", productsRouter);
 app.use("/api/views", viewsRouter);
 
 //methods to handlebars
-app.get("/", async (req, res) => {
-  try {
-    const products = await productsMongo.findAll();
-    //console.log(products);
-    res.render("home", { products });
-  } catch (error) {
-    console.error("Error fetching products:", error);
+// app.get("/", async (req, res) => {
+//   try {
+//     const products = await productsMongo.findAll();
+//     //console.log(products);
+//     res.render("home", { products });
+//   } catch (error) {
+//     console.error("Error fetching products:", error);
 
-    res.render("error", { error });
-  }
-});
+//     res.render("error", { error });
+//   }
+// });
 
 const httpServer = app.listen(PORT, () => {
   console.log("servidor creado");
 });
 
 const socketServer = new Server(httpServer);
-
-const fetchedProducts = [];
-
-let getAllProducts = async () => {
-  try {
-    const products = await productsMongo.findAll();
-    fetchedProducts.push(...products);
-    //console.log(fetchedProducts);
-    return products;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-getAllProducts();
-
-
-  //CHAT 
-  const fetchedMessages = [];
-
-  let getAllMessages= async () => {
-    try {
-      const messages = await messagesMongo.findAll();
-      fetchedMessages.push(...messages);
-      console.log(fetchedMessages);
-      return messages;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  getAllMessages();
 
 socketServer.on("connection", (socket) => {
   console.log("cliente conectado");
@@ -106,10 +79,7 @@ socketServer.on("connection", (socket) => {
     return deletedProduct;
   });
 
-
-
   socketServer.emit("messages", fetchedMessages);
-
 
   socket.on("newMessage", async (messageInfo) => {
     socketServer.emit('new', messageInfo)
