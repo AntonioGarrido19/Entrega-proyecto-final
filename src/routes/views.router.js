@@ -14,5 +14,9 @@ router.get('/chat', (req,res)=>{
     res.render('chat')
 })
 
+router.get('/carts', (req,res)=>{
+    res.render('cart')
+})
+
 
 export default router

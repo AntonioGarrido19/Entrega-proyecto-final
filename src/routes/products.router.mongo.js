@@ -24,7 +24,7 @@ let getAllProducts = async () => {
   try {
     const products = await productsMongo.findAll();
     fetchedProducts.push(...products);
-    console.log(fetchedProducts);
+    //console.log(fetchedProducts);
     return products;
   } catch (error) {
     console.error(error);

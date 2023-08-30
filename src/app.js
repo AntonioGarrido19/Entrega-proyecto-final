@@ -15,6 +15,10 @@ import {fetchedProducts} from "./routes/products.router.mongo.js";
 import { messagesMongo } from "./dao/managers/messages/MessagesMongo.js";
 import { fetchedMessages } from "./routes/messages.router.mongo.js";
 
+import { cartsMongo } from "./dao/managers/carts/CartsMongo.js";
+import { fetchedCarts } from "./routes/carts.router.mongo.js";
+
+
 const app = express();
 
 app.use(express.json());
@@ -71,4 +75,8 @@ socketServer.on("connection", (socket) => {
     console.log(message);
     return message;
   });
+
+  //CARTS
+  socketServer.emit('carts', fetchedCarts);
+
 });

@@ -23,7 +23,7 @@ let getAllMessages= async () => {
   try {
     const messages = await messagesMongo.findAll();
     fetchedMessages.push(...messages);
-    console.log(fetchedMessages);
+    //console.log(fetchedMessages);
     return messages;
   } catch (error) {
     console.error(error);

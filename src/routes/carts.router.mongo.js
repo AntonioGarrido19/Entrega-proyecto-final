@@ -3,11 +3,14 @@ import {cartsMongo} from "../dao/managers/carts/CartsMongo.js"
 
 const router = Router()
 
+export const fetchedCarts = [];
 
 router.get('/', async(req, res) => {
     try {
         const carts = await cartsMongo.findAll()
         if(carts.length){
+            console.log("Rendering carts:", carts);
+            res.render("carts", { carts })
         res.status(200).json({message:'Carts', carts})
     }else{
         res.status(200).json({message:'No carts found'})
@@ -16,6 +19,20 @@ router.get('/', async(req, res) => {
         res.status(500).json({error})
     }
 })
+
+let getAllCarts = async () => {
+    try {
+      const carts = await cartsMongo.findAll();
+      fetchedCarts.push(...carts);
+      console.log(fetchedCarts);
+      return carts;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  getAllCarts();
+
 
 router.get('/:id', async(req, res) => {
     const {id} = req.params
