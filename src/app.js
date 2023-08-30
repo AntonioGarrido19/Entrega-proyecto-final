@@ -7,12 +7,8 @@ import { Server } from "socket.io";
 import "./db/dbConfig.js";
 
 // import productsRouter from "./routes/products.router.js";
-// import productsRouter from "./routes/products.router.mongo.js";
 // import cartsRouter from "./routes/carts.router.js";
-// import cartsRouter from "./routes/carts.router.mongo.js";
-// import messagesRouter from "./routes/messages.router.mongo.js";
 
-// import productManager from "./db/managers/products/ProductManager.js";
 import { productsMongo } from "./dao/managers/products/ProductsMongo.js";
 import {fetchedProducts} from "./routes/products.router.mongo.js";
 
@@ -38,18 +34,6 @@ const PORT = 8080;
 app.use("/", productsRouter);
 app.use("/api/views", viewsRouter);
 
-//methods to handlebars
-// app.get("/", async (req, res) => {
-//   try {
-//     const products = await productsMongo.findAll();
-//     //console.log(products);
-//     res.render("home", { products });
-//   } catch (error) {
-//     console.error("Error fetching products:", error);
-
-//     res.render("error", { error });
-//   }
-// });
 
 const httpServer = app.listen(PORT, () => {
   console.log("servidor creado");
