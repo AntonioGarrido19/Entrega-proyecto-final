@@ -1,21 +1,34 @@
-const socketClient = io()
+const socketClient = io();
 
 //carts
-const cartsContainer = document.getElementById('carts_container')
-
+const cartsContainer = document.getElementById("carts_container");
 
 socketClient.on("carts", (carts) => {
-    const allCarts = carts
-      .map((objCarts) => {
-        return `
+  const allCarts = carts
+    .map((objCarts) => {
+      const productsInfo = objCarts.products
+        .map((product) => {
+          return `
+            <li>
+              Title: ${product.title}
+              Description: ${product.description}
+              Price: ${product.price}
+            </li>
+          `;
+        })
+        .join(" ");
+      return `
+        <div>
           <p>
           Title: ${objCarts.title}
-          Products: ${objCarts.products}
           Id: ${objCarts._id}
           </p>
+          <ul>
+          ${productsInfo}
+        </ul>
+        </div>
           `;
-      })
-      .join(" ");
-    cartsContainer.innerHTML = allCarts;
-  });
-  
+    })
+    .join(" ");
+  cartsContainer.innerHTML = allCarts;
+});
