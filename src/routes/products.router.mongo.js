@@ -3,14 +3,13 @@ import {productsMongo} from "../dao/managers/products/ProductsMongo.js"
 
 const router = Router()
 
-export const fetchedProducts = [];
 
 router.get('/', async(req, res) => {
     try {
-        const products = await productsMongo.findAll()
-        console.log(products);
-        res.status(200).json({products})
-        
+        const products = await productsMongo.findAll(req.query)
+        const payloadArray = products.info.payload        //console.log(payloadArray);
+        res.status(200).json({payload: payloadArray})
+      
         //console.log("Rendering home:", products);
         //res.render("home",  {allProd}  );
        
@@ -19,20 +18,6 @@ router.get('/', async(req, res) => {
        
     }
     })
-
-
-let getAllProducts = async () => {
-  try {
-    const products = await productsMongo.findAll();
-    fetchedProducts.push(products);
-    //console.log(fetchedProducts);
-    return products;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-getAllProducts();
 
 router.get('/:id', async(req, res) => {
     const {id} = req.params

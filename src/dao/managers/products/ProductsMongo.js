@@ -10,10 +10,10 @@ class ProductsMongo {
   //     }
   // }
 
-  async findAll() {
-    // const { limit, page, sort, ...query } = obj;
+  async findAll(obj) {
+    const { limit = 10, page, sort, ...query } = obj;
     try {
-      const result = await productsModel.paginate({}, {});
+      const result = await productsModel.paginate(query, { limit, page, sort });
       const info = {
         count: result.totalDocs,
         payload: result.docs,
@@ -25,7 +25,7 @@ class ProductsMongo {
           ? `http://localhost:8080/?page=${result.prevPage}`
           : null,
       };
-      //console.log(result.docs);
+      console.log(result.docs);
       return { info };
     } catch (error) {
       return error;

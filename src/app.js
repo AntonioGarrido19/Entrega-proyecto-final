@@ -10,13 +10,10 @@ import "./db/dbConfig.js";
 // import cartsRouter from "./routes/carts.router.js";
 
 import { productsMongo } from "./dao/managers/products/ProductsMongo.js";
-import {fetchedProducts} from "./routes/products.router.mongo.js";
 
 import { messagesMongo } from "./dao/managers/messages/MessagesMongo.js";
-import { fetchedMessages } from "./routes/messages.router.mongo.js";
 
 import { cartsMongo } from "./dao/managers/carts/CartsMongo.js";
-import { fetchedCarts } from "./routes/carts.router.mongo.js";
 
 
 const app = express();
@@ -49,7 +46,14 @@ socketServer.on("connection", (socket) => {
     console.log("cliente desconectado");
   });
 
-  socketServer.emit("products", fetchedProducts);
+  socket.on("getProducts", async () => {
+    try {
+      const products = await productsMongo.findAll({});
+      socket.emit("products", products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  });
 
   socket.on("newProduct", async (newProduct) => {
     socketServer.emit("added", newProduct);
@@ -65,7 +69,17 @@ socketServer.on("connection", (socket) => {
     return deletedProduct;
   });
 
-  socketServer.emit("messages", fetchedMessages);
+  
+  socket.on("getMessages", async () => {
+    try {
+      const messages = await messagesMongo.findAll({});
+      //console.log(messages);
+      socket.emit("messages", messages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  });
+
 
   socket.on("newMessage", async (messageInfo) => {
     socketServer.emit('new', messageInfo)
@@ -75,6 +89,14 @@ socketServer.on("connection", (socket) => {
   });
 
   //CARTS
-  socketServer.emit('carts', fetchedCarts);
+
+  socket.on("getCarts", async () => {
+    try {
+      const carts = await cartsMongo.findAll({});
+      socket.emit("carts", carts);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  });
 
 });

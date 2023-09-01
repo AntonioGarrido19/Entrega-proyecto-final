@@ -3,6 +3,8 @@ const socketClient = io();
 //carts
 const cartsContainer = document.getElementById("carts_container");
 
+socketClient.emit("getCarts");
+
 socketClient.on("carts", (carts) => {
   const allCarts = carts
     .map((objCarts) => {

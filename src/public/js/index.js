@@ -15,10 +15,13 @@ const deleteForm = document.getElementById("delete_product");
 const productId = document.getElementById("product_id");
 
 //REAL TIME PRODUCTS
+
+socketClient.emit("getProducts");
+
 socketClient.on("products", (products) => {
-  // console.log(products);
+  console.log('products:', products);
   // console.log(products[0].results)
-    const allProducts = products[0].results
+    const allProducts = products.info.payload
       .map((objProducts) => {
         return `
       <div data-product-id="${objProducts._id}">
@@ -79,3 +82,5 @@ socketClient.on("deleted", (deletedProductId) => {
     productToDelete.remove();
   }
 });
+
+

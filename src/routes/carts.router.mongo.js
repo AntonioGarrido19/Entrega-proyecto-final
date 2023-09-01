@@ -3,7 +3,6 @@ import { cartsMongo } from "../dao/managers/carts/CartsMongo.js";
 
 const router = Router();
 
-export const fetchedCarts = [];
 
 router.get("/", async (req, res) => {
   try {
@@ -20,18 +19,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-let getAllCarts = async () => {
-  try {
-    const carts = await cartsMongo.findAll();
-    fetchedCarts.push(...carts);
-    //console.log(fetchedCarts);
-    return carts;
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-getAllCarts();
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
