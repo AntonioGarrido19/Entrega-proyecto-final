@@ -3,7 +3,6 @@ import { cartsMongo } from "../dao/managers/carts/CartsMongo.js";
 
 const router = Router();
 
-
 router.get("/", async (req, res) => {
   try {
     const carts = await cartsMongo.findAll();
@@ -18,7 +17,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error });
   }
 });
-
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -45,6 +43,23 @@ router.post("/", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error });
   }
+
+  router.put("/:idCart/products/:idProduct", async (req, res) => {
+    const { idCart, idProduct } = req.params;
+    const quant = req.body;
+    try {
+      const newQuant = await cartsMongo.updateQuantity(
+        idCart,
+        idProduct,
+        quant
+      );
+      res.status(200).json({ mensage: "se actualizo el prod" });
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  });
+
+  router.put("./idCart/:idProduct/quant");
 
   router.delete("/:idCart/products/:idProduct"),
     async (req, res) => {

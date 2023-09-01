@@ -13,7 +13,7 @@ class ProductsMongo {
   async findAll(obj) {
     const { limit = 10, page, sort, ...query } = obj;
     try {
-      const result = await productsModel.paginate(query, { limit, page, sort });
+      const result = await productsModel.paginate(query, { limit, page, sort, lean: true });
       const info = {
         count: result.totalDocs,
         payload: result.docs,

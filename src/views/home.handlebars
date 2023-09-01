@@ -7,10 +7,12 @@
 <body>
   <h2>All Products</h2>
   <ul>
-    {{#each products}}
+    {{#each payloadArrayMap}}
 
       <li>
-        Product: {{title}} - Description: {{description}} - Price: ${{price}} - <button>Add to Cart</button>
+        Product: {{title}} - Description: {{description}} - Price: ${{price}} - 
+        <button data-product-id={{_id}}>Add to Cart</button> 
+        <button data-product-id={{_id}}>Product Details</button>
       </li>
     {{/each}}
   </ul>
