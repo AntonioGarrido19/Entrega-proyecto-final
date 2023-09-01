@@ -33,8 +33,6 @@ app.set("view engine", "handlebars");
 const PORT = 8080;
 
 //rutas
-// app.use("/api/products", productsRouter);
-// app.use("/api/carts", cartsRouter);
 app.use("/", productsRouter);
 app.use("/api/views", viewsRouter);
 

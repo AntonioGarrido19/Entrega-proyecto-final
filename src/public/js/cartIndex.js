@@ -14,6 +14,7 @@ socketClient.on("carts", (carts) => {
               Description: ${product.description}
               Price: ${product.price}
             </li>
+            <button id='cart_delete_product'>Delete Product</button>
           `;
         })
         .join(" ");
@@ -23,6 +24,7 @@ socketClient.on("carts", (carts) => {
           Title: ${objCarts.title}
           Id: ${objCarts._id}
           </p>
+          <button>Delete Cart</button>
           <ul>
           ${productsInfo}
         </ul>

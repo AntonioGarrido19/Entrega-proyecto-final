@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2'
+
 
 const messagesSchema = new mongoose.Schema({
     user:{
@@ -11,5 +13,8 @@ const messagesSchema = new mongoose.Schema({
         required: true
     },
 })
+
+messagesSchema.plugin(mongoosePaginate)
+
 
 export const messagesModel = mongoose.model('Messages', messagesSchema)

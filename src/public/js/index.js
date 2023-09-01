@@ -14,13 +14,13 @@ const productsContainer = document.getElementById("products_container");
 const deleteForm = document.getElementById("delete_product");
 const productId = document.getElementById("product_id");
 
-
 //REAL TIME PRODUCTS
 socketClient.on("products", (products) => {
-  //console.log(products);
-  const allProducts = products
-    .map((objProducts) => {
-      return `
+  // console.log(products);
+  // console.log(products[0].results)
+    const allProducts = products[0].results
+      .map((objProducts) => {
+        return `
       <div data-product-id="${objProducts._id}">
         <p>
         Product: ${objProducts.title}
@@ -29,10 +29,9 @@ socketClient.on("products", (products) => {
         Id: ${objProducts._id}
         </p>
         </div>`;
-    })
-    .join(" ");
-  productsContainer.innerHTML = allProducts;
-
+      })
+      .join(" ");
+    productsContainer.innerHTML = allProducts;
 });
 
 addForm.onsubmit = (e) => {
@@ -59,7 +58,7 @@ socketClient.on("added", (newProduct) => {
         Description: ${newProduct.description}
         Price: ${newProduct.price}
         ID: ${newProduct._id}
-      </p>`
+      </p>`;
 
   productsContainer.innerHTML += addedProductHTML;
 });
@@ -73,13 +72,10 @@ deleteForm.onsubmit = (e) => {
 };
 
 socketClient.on("deleted", (deletedProductId) => {
-  const productToDelete = document.querySelector(`[data-product-id="${deletedProductId}"]`)
+  const productToDelete = document.querySelector(
+    `[data-product-id="${deletedProductId}"]`
+  );
   if (productToDelete) {
     productToDelete.remove();
   }
-})
-
-
-
-
-
+});
