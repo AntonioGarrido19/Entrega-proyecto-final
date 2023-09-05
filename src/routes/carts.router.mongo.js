@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     const carts = await cartsMongo.findAll();
     if (carts.length) {
       console.log("Rendering carts:", carts);
-      res.render("carts", { carts });
+      //res.render("carts", { carts });
       res.status(200).json({ message: "Carts", carts });
     } else {
       res.status(200).json({ message: "No carts found" });
@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error });
   }
 });
+
 
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -61,7 +62,17 @@ router.post("/", async (req, res) => {
 
   router.put("./idCart/:idProduct/quant");
 
-  router.delete("/:idCart/products/:idProduct"),
+
+
+
+  router.delete("/:id", async (req, res)=>{
+    const {id} = req.params
+    const deleteOneCart = await cartsMongo.deleteCart(id)
+    res.status(200).json({deleteOneCart})
+  });
+
+
+  router.delete("/:idCart/products/:idProduct",
     async (req, res) => {
       const { idCart, idProduct } = req.params;
       try {
@@ -70,7 +81,7 @@ router.post("/", async (req, res) => {
       } catch (error) {
         res.status(500).json({ error });
       }
-    };
+    });
 });
 
 export default router;

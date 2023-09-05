@@ -1,11 +1,21 @@
 import { cartsModel } from "../../../db/models/carts-model.js";
-import { productMongo } from "../products/ProductsMongo.js";
+import { productsMongo } from "../products/ProductsMongo.js";
 
 class CartsMongo {
   async findAll() {
     try {
       const carts = await cartsModel.find({}).populate("products").lean();
       return carts;
+    } catch (error) {
+      return error;
+    }
+  }
+
+
+  async findById(id) {
+    try {
+      const cart = await cartsModel.findById(id).populate("products");
+      return cart;
     } catch (error) {
       return error;
     }
@@ -20,20 +30,11 @@ class CartsMongo {
     }
   }
 
-  async findById(id) {
+  async updateOne(idCart, idProduct) {
     try {
-      const cart = await cartsModel.findById(id).populate("products");
-      return cart;
-    } catch (error) {
-      return error;
-    }
-  }
-
-  async updateOne(cid, pid) {
-    try {
-      const cart = await cartsModel.findById(cid);
+      const cart = await cartsModel.findById(idCart);
       if (!cart) throw new Error("Cart not found");
-      const product = await productMongo.findById(pid);
+      const product = await productsMongo.findById(idProduct);
       if (!product) throw new Error("Product not found");
       const products = cart.products;
 

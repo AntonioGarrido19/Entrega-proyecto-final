@@ -2,17 +2,15 @@ import express from "express";
 import { __dirname } from "./utils.js";
 import handlebars from "express-handlebars";
 import viewsRouter from "./routes/views.router.js";
-import productsRouter from "./routes/products.router.mongo.js";
 import { Server } from "socket.io";
 import "./db/dbConfig.js";
 
-// import productsRouter from "./routes/products.router.js";
-// import cartsRouter from "./routes/carts.router.js";
+import productsRouter from "./routes/products.router.mongo.js";
+import cartsRouter from "./routes/carts.router.mongo.js";
+import messagesRouter from './routes/messages.router.mongo.js'
 
 import { productsMongo } from "./dao/managers/products/ProductsMongo.js";
-
 import { messagesMongo } from "./dao/managers/messages/MessagesMongo.js";
-
 import { cartsMongo } from "./dao/managers/carts/CartsMongo.js";
 
 
@@ -31,6 +29,8 @@ const PORT = 8080;
 
 //rutas
 app.use("/", productsRouter);
+app.use("/api/carts", cartsRouter);
+app.use("/api/chat", messagesRouter);
 app.use("/api/views", viewsRouter);
 
 
@@ -95,7 +95,7 @@ socketServer.on("connection", (socket) => {
       const carts = await cartsMongo.findAll({});
       socket.emit("carts", carts);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching carts:", error);
     }
   });
 

@@ -6,8 +6,10 @@ const cartsContainer = document.getElementById("carts_container");
 socketClient.emit("getCarts");
 
 socketClient.on("carts", (carts) => {
+  console.log(carts);
   const allCarts = carts
     .map((objCarts) => {
+      console.log(objCarts.products);
       const productsInfo = objCarts.products
         .map((product) => {
           return `
@@ -24,7 +26,7 @@ socketClient.on("carts", (carts) => {
         <div>
           <p>
           Title: ${objCarts.title}
-          Id: ${objCarts._id}
+          ID: ${objCarts._id}
           </p>
           <button>Delete Cart</button>
           <ul>
