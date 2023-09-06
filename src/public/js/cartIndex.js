@@ -9,7 +9,7 @@ socketClient.on("carts", (carts) => {
   console.log(carts);
   const allCarts = carts
     .map((objCarts) => {
-      console.log(objCarts.products);
+      //console.log(objCarts.products);
       const productsInfo = objCarts.products
         .map((product) => {
           return `

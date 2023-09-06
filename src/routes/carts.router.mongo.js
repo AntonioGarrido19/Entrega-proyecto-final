@@ -7,8 +7,6 @@ router.get("/", async (req, res) => {
   try {
     const carts = await cartsMongo.findAll();
     if (carts.length) {
-      console.log("Rendering carts:", carts);
-      //res.render("carts", { carts });
       res.status(200).json({ message: "Carts", carts });
     } else {
       res.status(200).json({ message: "No carts found" });

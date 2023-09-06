@@ -2,6 +2,15 @@ import { cartsModel } from "../../../db/models/carts-model.js";
 import { productsMongo } from "../products/ProductsMongo.js";
 
 class CartsMongo {
+  // async findAll() {
+  //   try {
+  //     const carts = await cartsModel.find({}).populate("products").lean();
+  //     return carts;
+  //   } catch (error) {
+  //     return error;
+  //   }
+  // }
+
   async findAll() {
     try {
       const carts = await cartsModel.find({}).populate("products").lean();

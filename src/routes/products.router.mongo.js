@@ -8,27 +8,13 @@ router.get('/', async(req, res) => {
     try {
         const products = await productsMongo.findAll(req.query)
         const payloadArray = products.info.payload   
-        const payloadArrayMap = payloadArray.map(e=>({
-            _id:e ._id,
-            title: e.title,
-            description: e.description,
-            price: e.price,
-            thumbnail: e.thumbnail,
-            code: e.code,
-            stock: e.stock,
-
-        }))    
-        //console.log(payloadArray);
-        //res.status(200).json({payload: payloadArray})
-      
-        //console.log("Rendering home:", products);
-        res.render("home",  {payloadArrayMap}  );
-       
+     
+        res.status(200).json({payload: payloadArray})
     } catch (error) {
-        res.status(500).json({error})
-       
-    }
-    })
+        res.status(500).json({error})   
+    }})
+
+
 
 router.get('/:id', async(req, res) => {
     const {id} = req.params
