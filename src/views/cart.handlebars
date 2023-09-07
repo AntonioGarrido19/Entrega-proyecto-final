@@ -5,19 +5,19 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Carts</h1>
-    <div id="carts_container"> </div>
-    <ul>
-      {{#each carts}}
-
-        <li>
-          Cart title:
-          {{title}}
-          - Products:
-          {{products}}
-        </li>
-      {{/each}}
-    </ul>
+    <h1>Cart</h1>
+      <ul>
+    {{#each cart.products}}
+    <li>
+      <h2>{{this.id.title}}</h2>
+      <p>Price: {{this.id.price}}</p>
+      <p>Description: {{this.id.description}}</p>
+      <p>Code: {{this.id.code}}</p>
+      <p>Stock: {{this.id.stock}}</p>
+      <p>Quantity: {{this.quantity}}</p>
+    </li>
+    {{/each}}
+  </ul>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/cartIndex.js"></script>

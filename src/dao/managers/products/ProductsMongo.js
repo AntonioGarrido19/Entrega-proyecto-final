@@ -13,11 +13,18 @@ class ProductsMongo {
   async findAll(obj) {
     const { limit = 10, page, sort, ...query } = obj;
     try {
-      const result = await productsModel.paginate(query, { limit, page, sort, lean: true });
+      const result = await productsModel.paginate(query, {
+        limit,
+        page,
+        sort: { price: sort },
+      });
+      console.log("Page:", page);
       const info = {
         count: result.totalDocs,
         payload: result.docs,
         totalPages: result.totalPages,
+        hasPrevPage: result.hasPrevPage ? prevPage : null,
+        hasNextPage: result.hasNextPage ? nextPage : null,
         nextLink: result.hasNextPage
           ? `http://localhost:8080/?page=${result.nextPage}`
           : null,
@@ -25,11 +32,11 @@ class ProductsMongo {
           ? `http://localhost:8080/?page=${result.prevPage}`
           : null,
       };
-      console.log(result.docs);
+      //console.log(result.docs);
       return { info };
     } catch (error) {
-      return error;
-    }
+    return (error)
+      };
   }
 
   async createOne(obj) {

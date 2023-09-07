@@ -7,9 +7,9 @@ const router = Router()
 router.get('/', async(req, res) => {
     try {
         const products = await productsMongo.findAll(req.query)
-        const payloadArray = products.info.payload   
+        //const payloadArray = products.info.payload   
      
-        res.status(200).json({payload: payloadArray})
+        res.status(200).json({products})
     } catch (error) {
         res.status(500).json({error})   
     }})

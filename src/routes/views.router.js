@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { productsMongo } from "../dao/managers/products/ProductsMongo.js";
+import { cartsMongo } from "../dao/managers/carts/CartsMongo.js"
+import { cartsModel } from "../db/models/carts-model.js";
 
 const router = Router();
 
@@ -45,8 +47,32 @@ router.get("/chat", (req, res) => {
   res.render("chat");
 });
 
-router.get("/carts", (req, res) => {
-  res.render("cart");
+// router.get("/carts", async (req, res) => {
+//   try {
+//     const carts = await cartsMongo.findAll();
+//     console.log(carts);
+//     if (carts.length) {
+//       res.render(200).json("cart", {carts});
+//     } else {
+//       res.status(200).json({ message: "No carts found" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ error });
+//   }
+// });
+
+router.get("/carts/:cid", async (req, res) => {
+  const { cid } = req.params;
+
+  try {
+    
+    const cart = await cartsModel.findById(cid).populate("products.id").lean()
+    console.log(cart);
+    res.render("cart", { cart });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al buscar el carrito" });
+  }
 });
 
 router.get("/login", (req, res) => {

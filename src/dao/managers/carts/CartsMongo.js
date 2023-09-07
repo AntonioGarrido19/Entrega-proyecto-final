@@ -1,29 +1,19 @@
 import { cartsModel } from "../../../db/models/carts-model.js";
-import { productsMongo } from "../products/ProductsMongo.js";
 
 class CartsMongo {
-  // async findAll() {
-  //   try {
-  //     const carts = await cartsModel.find({}).populate("products").lean();
-  //     return carts;
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // }
 
   async findAll() {
     try {
-      const carts = await cartsModel.find({}).populate("products").lean();
+      const carts = await cartsModel.find({}).populate("products.id").lean();
       return carts;
     } catch (error) {
       return error;
     }
   }
 
-
   async findById(id) {
     try {
-      const cart = await cartsModel.findById(id).populate("products");
+      const cart = await cartsModel.findById(id).populate("products.id");
       return cart;
     } catch (error) {
       return error;
@@ -39,42 +29,14 @@ class CartsMongo {
     }
   }
 
-  async updateOne(idCart, idProduct) {
+  async deleteCart(id) {
     try {
-      const cart = await cartsModel.findById(idCart);
-      if (!cart) throw new Error("Cart not found");
-      const product = await productsMongo.findById(idProduct);
-      if (!product) throw new Error("Product not found");
-      const products = cart.products;
-
+      const response = await cartsModel.findByIdAndDelete(id);
       return response;
     } catch (error) {
       return error;
     }
   }
-
-  async updateQuantity(idCart, idProduct, quant) {
-    try {
-      const { quantity } = quant;
-      const cart = await cartsModel.findById(idCart);
-      const prodInCart = cart.products;
-      const newQuantity = prodInCart.find((e) => e.id == idProduct);
-      newQuantity.quantity = quantity;
-      return response;
-    } catch (error) {
-      return error;
-    }
-  }
-
-    async deleteCart(id) {
-      try {
-        const response = await cartsModel.findByIdAndDelete(id);
-        return response;
-      } catch (error) {
-        return error;
-      }
-    }
-
 
   async deleteProduct(idCart, idProduct) {
     try {
@@ -91,6 +53,43 @@ class CartsMongo {
       return error;
     }
   }
+
+
+
+  async updateOne(id, obj) {
+    try {
+      const update = await cartsModel.updateOne({ _id: id }, { ...obj });
+      return update;
+    } catch (error) {
+      return error;
+    }
+  }
+
+
+  async updateProductQuantity(cartId, productId, updatedQuantity) {
+    try {
+        const cart = await cartsModel.findById(cartId).populate("products.id");
+
+        if (!cart) {
+            throw new Error("Carrito no encontrado");
+        }
+
+        const productToUpdate = cart.products.find(product => product.id._id.toString() === productId);
+
+        if (!productToUpdate) {
+            throw new Error("Producto no encontrado en el carrito");
+        }
+
+        productToUpdate.quantity = updatedQuantity;
+        await cart.save();
+
+        return cart;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 }
 
 export const cartsMongo = new CartsMongo();
