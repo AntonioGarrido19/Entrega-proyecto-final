@@ -4,13 +4,15 @@ import handlebars from "express-handlebars";
 import viewsRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
 import "./db/dbConfig.js";
-import cookieParser from 'cookie-parser'
-import session from 'express-session'
-import mongoStore from 'connect-mongo'
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import mongoStore from "connect-mongo";
 
 import productsRouter from "./routes/products.router.mongo.js";
 import cartsRouter from "./routes/carts.router.mongo.js";
-import messagesRouter from './routes/messages.router.mongo.js'
+import messagesRouter from "./routes/messages.router.mongo.js";
+import usersRouter from "./routes/users.router.js";
+import loginRouter from "./routes/login.router.js";
 // import loginRouter from "./routes/session.router.js"
 
 import { productsMongo } from "./dao/managers/products/ProductsMongo.js";
@@ -20,12 +22,11 @@ import { cartsMongo } from "./dao/managers/carts/CartsMongo.js";
 const PORT = 8080;
 const app = express();
 
-// const connection = mongoose.connect(MONGO)
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
-
 
 //handlebars
 app.engine("handlebars", handlebars.engine());
@@ -33,32 +34,27 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 
 //cookies
-app.use(cookieParser('secretKeyCookies'))
+app.use(cookieParser("secretKeyCookies"));
 
-
-//session
-// app.use(session({
-//   store: new mongoStore({
-//     mongoUrl: MONGO,
-//     ttl: 15,
-//     path: __dirname+'/sessions', ttl: 100, retries: 0
-//   }),
-//   secret: 'secretSession',
-//   resave:false,
-//   saveUnitialized: false,
-//   cookie: {maxAge: 60000}
-// }))
-
-
+session;
+app.use(
+  session({
+    store: new mongoStore({
+      mongoUrl:
+        "mongodb+srv://antogarrido98:Puntarubia2023@coderhousecluster.1xhgeyw.mongodb.net/ecommerce?retryWrites=true&w=majority",
+    }),
+    secret: "secretSession",
+    cookie: { maxAge: 60000 },
+  })
+);
 
 //rutas
-app.use("/", productsRouter);
+app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/chat", messagesRouter);
 app.use("/api/views", viewsRouter);
-
-// app.use("/api/login", loginRouter)
-
+app.use("/api/users", usersRouter);
+app.use("/api/login", loginRouter);
 
 const httpServer = app.listen(PORT, () => {
   console.log("servidor creado");
@@ -95,7 +91,6 @@ socketServer.on("connection", (socket) => {
     return deletedProduct;
   });
 
-  
   socket.on("getMessages", async () => {
     try {
       const messages = await messagesMongo.findAll({});
@@ -106,10 +101,9 @@ socketServer.on("connection", (socket) => {
     }
   });
 
-
   socket.on("newMessage", async (messageInfo) => {
-    socketServer.emit('new', messageInfo)
-    const message = await messagesMongo.createOne(messageInfo)
+    socketServer.emit("new", messageInfo);
+    const message = await messagesMongo.createOne(messageInfo);
     console.log(message);
     return message;
   });
@@ -124,5 +118,4 @@ socketServer.on("connection", (socket) => {
       console.error("Error fetching carts:", error);
     }
   });
-
 });

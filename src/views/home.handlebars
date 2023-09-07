@@ -6,9 +6,9 @@
 </head>
 <body>
   <h2>All Products</h2>
+      <p>Welcome {{username}}! What are you looking for today?</p>
   <ul>
     {{#each payloadArrayMap}}
-
       <li>
         Product: {{title}} - Description: {{description}} - Price: ${{price}} - 
         <button data-product-id={{_id}}>Add to Cart</button> 

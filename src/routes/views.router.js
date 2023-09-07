@@ -18,7 +18,10 @@ router.get("/products", async (req, res) => {
       code: e.code,
       stock: e.stock,
     }));
-    res.render("home", { payloadArrayMap });
+
+    const username = req.session.username;
+
+    res.render("home", { payloadArrayMap, username });
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -47,20 +50,6 @@ router.get("/chat", (req, res) => {
   res.render("chat");
 });
 
-// router.get("/carts", async (req, res) => {
-//   try {
-//     const carts = await cartsMongo.findAll();
-//     console.log(carts);
-//     if (carts.length) {
-//       res.render(200).json("cart", {carts});
-//     } else {
-//       res.status(200).json({ message: "No carts found" });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ error });
-//   }
-// });
-
 router.get("/carts/:cid", async (req, res) => {
   const { cid } = req.params;
 
@@ -79,8 +68,8 @@ router.get("/login", (req, res) => {
   res.render("login");
 });
 
-router.get("/register", (req, res) => {
-  res.render("register");
+router.get("/signup", (req, res) => {
+  res.render("signup");
 });
 
 
