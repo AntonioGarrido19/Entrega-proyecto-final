@@ -16,16 +16,22 @@ const usersSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
   password: {
     type: String,
     required: true,
   },
+  user: {
+    type: Boolean,
+    default: true,
+  },
   isAdmin: {
     type: Boolean,
-    defaul:false
-  }
-
+    defaul: false,
+  },
 });
 
 export const usersModel = mongoose.model(collection, usersSchema);
-

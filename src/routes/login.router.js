@@ -27,7 +27,6 @@ router.get('/home', async(req,res)=>{
     const {username} = req.session
     const userDB = await usersManager.findUser(username)
     res.redirect('/products')
-    
 })
 
 
