@@ -56,9 +56,13 @@ app.use("/api/views", viewsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 
+
 const httpServer = app.listen(PORT, () => {
   console.log("servidor creado");
 });
+
+
+
 
 const socketServer = new Server(httpServer);
 

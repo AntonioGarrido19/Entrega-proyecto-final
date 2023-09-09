@@ -30,6 +30,10 @@ router.get('/home', async(req,res)=>{
     
 })
 
+
+export default router
+
+
 // router.get('/home', async(req,res)=>{
 //     const {username} = req.session
 //     const userDB = await usersManager.findUser(username)
@@ -39,5 +43,3 @@ router.get('/home', async(req,res)=>{
 //         res.redirect('/api/views/clientHome')
 //     }
 // })
-
-export default router
