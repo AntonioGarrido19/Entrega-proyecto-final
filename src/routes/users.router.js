@@ -15,7 +15,7 @@ const {first_name,last_name,username,password} = req.body
     }
     const hashPassword = await hashData(password)
     const newUser = await usersManager.create({...req.body, password:hashPassword})
-    res.status(200).json({message: 'User created', user: newUser})
+    res.redirect('/api/views/login')
 })
 
 
