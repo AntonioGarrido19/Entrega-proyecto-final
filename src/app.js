@@ -7,6 +7,7 @@ import "./db/dbConfig.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import mongoStore from "connect-mongo";
+import passport from 'passport'
 
 import productsRouter from "./routes/products.router.mongo.js";
 import cartsRouter from "./routes/carts.router.mongo.js";
@@ -36,6 +37,8 @@ app.set("view engine", "handlebars");
 //cookies
 app.use(cookieParser("secretKeyCookies"));
 
+
+//sessions
 session;
 app.use(
   session({
@@ -47,6 +50,11 @@ app.use(
     cookie: { maxAge: 60000 },
   })
 );
+
+//passport
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 //rutas
 app.use("/api/products", productsRouter);
