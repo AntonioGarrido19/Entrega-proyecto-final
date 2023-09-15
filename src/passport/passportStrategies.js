@@ -24,34 +24,6 @@ passport.use(
   })
 );
 
-// passport.use(
-//   new GithubStrategy(
-//     {
-//       clientID: "Iv1.8e91905a6a017ab4",
-//       clientSecret: "45fadcd2c3ee3e4983760ac1aa5f1e45dc224879",
-//       callbackURL: "http://localhost:8080/api/users/github",
-//     },
-//     async function (accessToken, refreshToken, profile, done) {
-//       try {
-//         const userDB = await usersManager.findUser(profile.username);
-//         if (userDB) {
-//           return done(null, false);
-//         }
-//         const newUser = {
-//           first_name: profile.displayName.split(" ")[0],
-//           last_name: profile.displayName.split(" ")[1],
-//           username: profile.username,
-//           password: " "
-//         };
-//         const result = await usersManager.create(newUser);
-//         return done(null, result);
-//       } catch (error) {
-//         done(error);
-//       }
-//     }
-//   )
-// );
-
 
 passport.use(
   new GithubStrategy(
@@ -70,6 +42,7 @@ passport.use(
           first_name: profile.displayName.split(" ")[0],
           last_name:  profile.displayName.split(" ")[1],
           username: profile.username,
+          email: profile.email,
           password: ' '
         }
         const result = await usersManager.create(newUser)
@@ -82,19 +55,7 @@ passport.use(
   )
 );
 
-// passport.use(
-//   new GithubStrategy(
-//     {
-//       clientID: "Iv1.8e91905a6a017ab4",
-//       clientSecret: "45fadcd2c3ee3e4983760ac1aa5f1e45dc224879",
-//       callbackURL: "http://localhost:8080/api/users/github",
-//     },
-//     function (accessToken, refreshToken, profile, done) {
-//       console.log(profile);
-//       done(null, false);
-//     }
-//   )
-// );
+
 
 // user => id
 passport.serializeUser((user, done) => {
