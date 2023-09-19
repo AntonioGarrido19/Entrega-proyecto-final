@@ -33,7 +33,7 @@ router.get('/home', async(req,res)=>{
 
 router.get('/githubSignin', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
-router.get('/github',passport.authenticate('github'),async(req,res)=>{
+router.get('/api/users/github',passport.authenticate('github'),async(req,res)=>{
     console.log(req);
     res.redirect('/api/views/products')
 })

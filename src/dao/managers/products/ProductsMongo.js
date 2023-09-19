@@ -1,14 +1,7 @@
 import { productsModel } from "../../../db/models/products-model.js";
 
 class ProductsMongo {
-  // async findAll(){
-  //     try {
-  //         const products = await productsModel.find({})
-  //         return products
-  //     } catch (error) {
-  //         return error
-  //     }
-  // }
+
 
   async findAll(obj) {
     const { limit = 10, page, sort, ...query } = obj;
@@ -23,16 +16,17 @@ class ProductsMongo {
         count: result.totalDocs,
         payload: result.docs,
         totalPages: result.totalPages,
-        hasPrevPage: result.hasPrevPage ? prevPage : null,
-        hasNextPage: result.hasNextPage ? nextPage : null,
+        page: result.page,
+        hasPrevPage: result.hasPrevPage ? result.prevPage : null,
+        hasNextPage: result.hasNextPage ? result.nextPage : null,
         nextLink: result.hasNextPage
-          ? `http://localhost:8080/?page=${result.nextPage}`
+          ? `http://localhost:8080/api/products?page=${result.nextPage}`
           : null,
         prevLink: result.hasPrevPage
-          ? `http://localhost:8080/?page=${result.prevPage}`
+          ? `http://localhost:8080/api/products?page=${result.prevPage}`
           : null,
       };
-      //console.log(result.docs);
+      console.log(info);
       return { info };
     } catch (error) {
     return (error)
