@@ -23,7 +23,7 @@ const {first_name,last_name,username,password, email} = req.body
     } else {
         usersManager.create({...req.body, password:hashPassword})
     }
-    res.redirect('/api/views/login')
+    res.redirect('/api/views/product')
 })
 
 //passport github
@@ -32,8 +32,14 @@ router.get('/githubSignup', passport.authenticate('github', { scope: [ 'user:ema
 
 router.get('/github',passport.authenticate('github'),async(req,res)=>{
     console.log(req);
-    res.send('Bienvenido desde github')
+    res.redirect('/api/views/products')
 })
 
 
+// router.get('/githubSignin', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+// router.get('/github',passport.authenticate('github'),async(req,res)=>{
+//     console.log(req);
+//     res.redirect('/api/views/products')
+// })
 export default router

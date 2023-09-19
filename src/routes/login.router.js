@@ -1,6 +1,7 @@
 import {Router} from "express";
 import { usersManager } from '../dao/managers/session/UsersMongo.js'
 import { compareData } from "../utils.js"
+import passport from 'passport'
 
 const router= Router()
 
@@ -27,6 +28,14 @@ router.get('/home', async(req,res)=>{
     const {username} = req.session
     const userDB = await usersManager.findUser(username)
     res.redirect('/products')
+})
+
+
+router.get('/githubSignin', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+router.get('/github',passport.authenticate('github'),async(req,res)=>{
+    console.log(req);
+    res.redirect('/api/views/products')
 })
 
 

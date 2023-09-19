@@ -14,7 +14,7 @@ class UsersManager {
 
     async findUser(username){
         try {
-            const user = await usersModel.findOne(username)
+            const user = await usersModel.findOne({username})
             return user;
         } catch (error) {
             return error
