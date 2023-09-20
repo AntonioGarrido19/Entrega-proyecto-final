@@ -34,9 +34,9 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
-        const userDB = await usersManager.findUser(profile.username);
-        if(userDB){
-          return done(null,false)
+        const userExists = await usersManager.findUser(profile.username)
+        if(userExists){
+          return done(null,userExists)
         }
         const newUser = {
           first_name: profile.displayName.split(" ")[0],

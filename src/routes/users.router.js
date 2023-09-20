@@ -30,16 +30,13 @@ const {first_name,last_name,username,password, email} = req.body
 
 router.get('/githubSignup', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
-router.get('/github',passport.authenticate('github'),async(req,res)=>{
-    console.log(req);
+
+router.get('/github', passport.authenticate('github',{failureRedirect: '/api/views/login'}), async (req, res)=>
+{
+    req.session.user = req.user
     res.redirect('/api/views/products')
 })
 
 
-// router.get('/githubSignin', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
-// router.get('/github',passport.authenticate('github'),async(req,res)=>{
-//     console.log(req);
-//     res.redirect('/api/views/products')
-// })
 export default router
