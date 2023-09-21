@@ -26,7 +26,7 @@ class ProductsMongo {
           ? `http://localhost:8080/api/products?page=${result.prevPage}`
           : null,
       };
-      console.log(info);
+      //console.log(info);
       return { info };
     } catch (error) {
     return (error)

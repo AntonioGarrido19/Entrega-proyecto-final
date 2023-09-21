@@ -1,8 +1,11 @@
 import { Router } from "express";
 import { productsMongo } from "../dao/managers/products/ProductsMongo.js";
 import { cartsModel } from "../db/models/carts-model.js";
+//import { jwtValidation } from '../middlewares/jwt.middleware.js';
 
 const router = Router();
+
+//router.use(jwtValidation)
 
 router.get("/products", async (req, res) => {
   try {
@@ -18,9 +21,11 @@ router.get("/products", async (req, res) => {
       stock: e.stock,
     }));
 
-    const username = req.session.username;
-
-    res.render("home", { payloadArrayMap, username });
+    console.log('Payload Array:', payloadArray);
+    //const username = req.user.username;
+    //console.log('username', username);
+   
+    res.render("home", { payloadArrayMap}); //username
   } catch (error) {
     res.status(500).json({ error });
   }

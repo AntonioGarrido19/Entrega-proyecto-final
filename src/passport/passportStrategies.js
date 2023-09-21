@@ -2,8 +2,29 @@ import passport from "passport";
 import { usersModel } from "../db/models/users-model.js";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
+import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt'
 import { usersManager } from "../dao/managers/session/UsersMongo.js";
 import { compareData } from "../utils.js";
+
+
+const secretKey = "KEYJWT"
+
+// user => id
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+// id => user
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await usersModel.findById(id);
+    done(null, user);
+  } catch (error) {
+    done(error);
+  }
+});
+
+
 
 passport.use(
   "login",
@@ -36,14 +57,18 @@ passport.use(
       try {
         const userExists = await usersManager.findUser(profile.username)
         if(userExists){
-          return done(null,userExists)
+          if(userExists.fromGithub){
+            return done(null,userExists)
+          }
+          return done(null,false)
         }
         const newUser = {
           first_name: profile.displayName.split(" ")[0],
           last_name:  profile.displayName.split(" ")[1],
           username: profile.username,
           email: profile.email,
-          password: ' '
+          password: ' ',
+          fromGithub: true
         }
         const result = await usersManager.create(newUser)
         return done(null,result)
@@ -57,17 +82,33 @@ passport.use(
 
 
 
-// user => id
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
+passport.use('jwt',new JWTStrategy({
 
-// id => user
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await usersModel.findById(id);
-    done(null, user);
-  } catch (error) {
-    done(error);
-  }
-});
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: secretKey
+
+},async (jwt_payload, done)=>{
+  console.log('jwt_payload', jwt_payload);
+  done(null,jwt_payload.user)
+}))
+
+
+//cookies
+
+// const cookieExtractor= (req)=>{
+//   return req.cookies.token
+// }
+
+// passport.use('jwt',new JWTStrategy({
+
+//   jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+//   secretOrKey: secretKey
+
+// },async (jwt_payload, done)=>{
+//   console.log('jwt_payload', jwt_payload);
+//   done(null,jwt_payload.user)
+// }))
+
+
+
+

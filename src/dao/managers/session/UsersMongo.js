@@ -20,6 +20,16 @@ class UsersManager {
             return error
         }
     }
+
+
+    async deleteUser(username){
+        try {
+            const user = await usersModel.findOneAndDelete({username})
+            return user
+        } catch (error) {
+            return error
+        }
+    }
 }
 
 export const usersManager = new UsersManager()

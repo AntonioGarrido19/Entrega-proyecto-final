@@ -13,9 +13,10 @@ import './passport/passportStrategies.js'
 import productsRouter from "./routes/products.router.mongo.js";
 import cartsRouter from "./routes/carts.router.mongo.js";
 import messagesRouter from "./routes/messages.router.mongo.js";
-import usersRouter from "./routes/users.router.js";
+import usersRouter from "./routes/authentication.router.js";
 import loginRouter from "./routes/login.router.js";
-// import loginRouter from "./routes/session.router.js"
+import jwtRouter from "./routes/jwt.router.js"
+import authenticationRouter from "./routes/authentication.router.js"
 
 import { productsMongo } from "./dao/managers/products/ProductsMongo.js";
 import { messagesMongo } from "./dao/managers/messages/MessagesMongo.js";
@@ -40,31 +41,35 @@ app.use(cookieParser("secretKeyCookies"));
 
 
 //sessions
-session;
-app.use(
-  session({
-    store: new mongoStore({
-      mongoUrl:
-        "mongodb+srv://antogarrido98:Puntarubia2023@coderhousecluster.1xhgeyw.mongodb.net/ecommerce?retryWrites=true&w=majority",
-    }),
-    secret: "secretSession",
-    cookie: { maxAge: 60000 },
-  })
-);
+// session;
+// app.use(
+//   session({
+//     store: new mongoStore({
+//       mongoUrl:
+//         "mongodb+srv://antogarrido98:Puntarubia2023@coderhousecluster.1xhgeyw.mongodb.net/ecommerce?retryWrites=true&w=majority",
+//     }),
+//     secret: "secretSession",
+//     cookie: { maxAge: 60000 },
+//   })
+// );
 
 //passport
 app.use(passport.initialize())
-app.use(passport.session())
+// app.use(passport.session())
 
 
-//rutas
+//routes
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/chat", messagesRouter);
 app.use("/api/views", viewsRouter);
-app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/jwt", jwtRouter);
+app.use("/api/authentication", authenticationRouter)
 
+
+//Ruteo avanzado y auth
+app.use("/api/users", usersRouter);
 
 const httpServer = app.listen(PORT, () => {
   console.log("servidor creado");

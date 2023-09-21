@@ -1,7 +1,7 @@
 import {Router} from "express";
 import { usersManager } from '../dao/managers/session/UsersMongo.js'
 import { compareData } from "../utils.js"
-import passport from 'passport'
+
 
 const router= Router()
 
