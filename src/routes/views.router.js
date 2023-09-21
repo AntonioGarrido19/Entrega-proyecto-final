@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { productsMongo } from "../dao/managers/products/ProductsMongo.js";
 import { cartsModel } from "../db/models/carts-model.js";
-//import { jwtValidation } from '../middlewares/jwt.middleware.js';
+
 
 const router = Router();
 
-//router.use(jwtValidation)
+
 
 router.get("/products", async (req, res) => {
   try {
@@ -22,10 +22,10 @@ router.get("/products", async (req, res) => {
     }));
 
     console.log('Payload Array:', payloadArray);
-    //const username = req.user.username;
+    const username = req.user.username;
     //console.log('username', username);
    
-    res.render("home", { payloadArrayMap}); //username
+    res.render("home", { payloadArrayMap, username}); //username
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -86,6 +86,15 @@ router.get('/logout', (req, res) => {
       res.redirect('/api/views/login');
   });
 });
+
+
+router.get('/logout', (req, res) => {
+  // Destroy the token
+  localStorage.removeItem('jwtToken');
+      res.redirect('/api/views/login');
+  });
+
+
 
 
 export default router;

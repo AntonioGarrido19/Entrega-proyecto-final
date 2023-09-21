@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { usersManager } from "../dao/managers/session/UsersMongo.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { jwtValidation } from "../middlewares/jwt.middleware.js";
 
 const router = Router();
 
-router.get("/:username", async (req, res) => {
+router.get("/:username",jwtValidation,authMiddleware('premium'), async (req, res) => {
   const { username } = req.params;
   try {
     const user = await usersManager.findUser(username);
@@ -14,7 +16,7 @@ router.get("/:username", async (req, res) => {
   }
 });
 
-router.delete("/:username",authMiddlewawre('admin'), async(req,res)=>{
+router.delete("/:username",jwtValidation,authMiddleware('admin'), async(req,res)=>{
     const {username} = req.params;
     try {
         const user = await usersManager.deleteUser(username);

@@ -29,7 +29,11 @@ router.post("/", async (req, res) => {
         //console.log('token',token);
          // Generate a JWT token with the username in the payload
          const tokenPayload = {
+          first_name: userDB.first_name,
+          last_name:  userDB.last_name,
           username: userDB.username,
+          email: userDB.email,
+
           // You can include other data in the payload if needed
       };
       const token = jwt.sign(tokenPayload, secretKey);

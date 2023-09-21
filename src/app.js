@@ -41,21 +41,21 @@ app.use(cookieParser("secretKeyCookies"));
 
 
 //sessions
-// session;
-// app.use(
-//   session({
-//     store: new mongoStore({
-//       mongoUrl:
-//         "mongodb+srv://antogarrido98:Puntarubia2023@coderhousecluster.1xhgeyw.mongodb.net/ecommerce?retryWrites=true&w=majority",
-//     }),
-//     secret: "secretSession",
-//     cookie: { maxAge: 60000 },
-//   })
-// );
+session;
+app.use(
+  session({
+    store: new mongoStore({
+      mongoUrl:
+        "mongodb+srv://antogarrido98:Puntarubia2023@coderhousecluster.1xhgeyw.mongodb.net/ecommerce?retryWrites=true&w=majority",
+    }),
+    secret: "secretSession",
+    cookie: { maxAge: 60000 },
+  })
+);
 
 //passport
 app.use(passport.initialize())
-// app.use(passport.session())
+app.use(passport.session())
 
 
 //routes
