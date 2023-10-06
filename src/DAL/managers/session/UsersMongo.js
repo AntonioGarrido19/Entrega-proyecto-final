@@ -3,19 +3,19 @@ import { usersModel } from "../../../db/models/users-model.js";
 
 class UsersManager {
 
-    async create(user){
+    async findUser(username){
         try {
-            const newUser = await usersModel.create(user)
-            return newUser
+            const user = await usersModel.findOne({username})
+            return user;
         } catch (error) {
             return error
         }
     }
 
-    async findUser(username){
+    async create(user){
         try {
-            const user = await usersModel.findOne({username})
-            return user;
+            const newUser = await usersModel.create(user)
+            return newUser
         } catch (error) {
             return error
         }

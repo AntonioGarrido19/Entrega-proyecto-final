@@ -11,14 +11,7 @@ class CartsMongo {
     }
   }
 
-  async findById(id) {
-    try {
-      const cart = await cartsModel.findById(id).populate("products.id");
-      return cart;
-    } catch (error) {
-      return error;
-    }
-  }
+
 
   async createOne(obj) {
     try {
@@ -28,6 +21,25 @@ class CartsMongo {
       return error;
     }
   }
+
+  async findById(id) {
+    try {
+      const cart = await cartsModel.findById(id).populate("products.id");
+      return cart;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async updateOne(id, obj) {
+    try {
+      const update = await cartsModel.updateOne({ _id: id }, { ...obj });
+      return update;
+    } catch (error) {
+      return error;
+    }
+  }
+
 
   async deleteCart(id) {
     try {
@@ -56,15 +68,7 @@ class CartsMongo {
 
 
 
-  async updateOne(id, obj) {
-    try {
-      const update = await cartsModel.updateOne({ _id: id }, { ...obj });
-      return update;
-    } catch (error) {
-      return error;
-    }
-  }
-
+  
 
   async updateProductQuantity(cartId, productId, updatedQuantity) {
     try {

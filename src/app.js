@@ -9,6 +9,7 @@ import session from "express-session";
 import mongoStore from "connect-mongo";
 import passport from 'passport'
 import './passport/passportStrategies.js'
+import config from "./config.js"
 
 import productsRouter from "./routes/products.router.mongo.js";
 import cartsRouter from "./routes/carts.router.mongo.js";
@@ -22,7 +23,7 @@ import { productsMongo } from "./dao/managers/products/ProductsMongo.js";
 import { messagesMongo } from "./dao/managers/messages/MessagesMongo.js";
 import { cartsMongo } from "./dao/managers/carts/CartsMongo.js";
 
-const PORT = 8080;
+const PORT = config.port;
 const app = express();
 
 
