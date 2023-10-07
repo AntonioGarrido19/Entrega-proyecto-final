@@ -6,7 +6,7 @@ export const findAll = () => {
 }
 
 export const create = (obj) =>{
-    const cart = cartsMongo.create(obj)
+    const cart = cartsMongo.createOne(obj)
     return cart
 }
 
@@ -22,13 +22,14 @@ export const findById = async(id)=>{
     }
     
     export const deleteOne = async(id)=>{
-        const response = await cartsMongo.deleteOne(id)
+        const response = await cartsMongo.deleteCart(id)
         return response
     }
     
 
     export const deleteProduct = async(idCart, idProduct)=>{
-        const response = await cartsMongo.deleteProduct(idCart, idProduct)
+        const response = await cartsMongo.deleteProduct(idCart, { _id: idCart },
+            { $pull: { products: idProduct } })
         return response
     }
 

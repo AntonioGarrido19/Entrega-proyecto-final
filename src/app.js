@@ -19,14 +19,12 @@ import loginRouter from "./routes/login.router.js";
 import jwtRouter from "./routes/jwt.router.js"
 import authenticationRouter from "./routes/authentication.router.js"
 
-import { productsMongo } from "./dao/managers/products/ProductsMongo.js";
-import { messagesMongo } from "./dao/managers/messages/MessagesMongo.js";
-import { cartsMongo } from "./dao/managers/carts/CartsMongo.js";
+import { productsMongo } from "./DAL/managers/products/ProductsMongo.js";
+import { messagesMongo } from "./DAL/managers/messages/MessagesMongo.js";
+import { cartsMongo } from "./DAL/managers/carts/CartsMongo.js";
 
 const PORT = config.port;
 const app = express();
-
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

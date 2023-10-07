@@ -1,5 +1,5 @@
 import { Router} from 'express'
-import { usersManager } from '../dao/managers/session/UsersMongo.js'
+import { usersManager } from '../DAL/managers/session/UsersMongo.js'
 import { hashData } from "../utils.js"
 import passport from 'passport'
 

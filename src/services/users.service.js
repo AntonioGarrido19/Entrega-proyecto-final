@@ -5,10 +5,10 @@ export const findUser = async (username) => {
   return users;
 };
 
-// export const create = async (user) => {
-//   const user = await usersManager.create(user);
-//   return user;
-// };
+export const create = async (user) => {
+  const newUser = await usersManager.create(user);
+  return newUser;
+};
 
 export const deleteUser = async (username) => {
   const response = await usersManager.deleteUser({ username });

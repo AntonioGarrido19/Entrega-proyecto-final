@@ -11,7 +11,7 @@ export const findUser = (req, res) => {
     }
 }
 
-export const createUser = (req, res) => {
+export const deleteUser = (req, res) => {
     const {username} = req.params;
     try {
         const user = deleteUser(username);

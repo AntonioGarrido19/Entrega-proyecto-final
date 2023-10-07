@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { productsMongo } from "../dao/managers/products/ProductsMongo.js";
+import { productsMongo } from "../DAL/managers/products/ProductsMongo.js";
 import { cartsModel } from "../db/models/carts-model.js";
 
 

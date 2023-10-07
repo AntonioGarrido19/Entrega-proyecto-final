@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { usersManager } from "../dao/managers/session/UsersMongo.js";
+import { usersManager } from "../DAL/managers/session/UsersMongo.js";
 import { generateToken, compareData } from "../utils.js";
 import {jwtValidation} from '../middlewares/jwt.middleware.js'
 import passport from 'passport';

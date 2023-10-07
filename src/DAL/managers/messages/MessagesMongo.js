@@ -30,25 +30,6 @@ class MessagesMongo {
         }
     }
 
-    // async updateOne(id, obj){
-    //     try {
-    //         const response = await cartsModel.updateOne({_id:id}, {set:{obj}})
-    //         return response
-    //     } catch (error) {
-    //         return error
-    //     }
-    // }
-
-
-    // async deleteOne(id){
-    //     try {
-    //         const response = await cartsModel.findByIdAndDelete(id)
-    //         return response
-    //     } catch (error) {
-    //         return error
-    //     }
-    // }
-
 }
 
 export const messagesMongo = new MessagesMongo()

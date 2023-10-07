@@ -3,5 +3,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export default {
-    port: proces.env.PORT
+    port: process.env.PORT,
+    mongo_uri: process.env.MONGO_URI
 }

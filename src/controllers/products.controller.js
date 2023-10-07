@@ -10,15 +10,15 @@ export const getProducts = async (req, res) => {
   try {
     const products = findAll();
 
-    const limit = request.query.limit;
+    const limit = req.query.limit;
     if (limit) {
       const resLimit = products.slice(0, parseInt(limit, 10));
-      response.status(200).json({ message: "productos", products: resLimit });
+      res.status(200).json({ message: "productos", products: resLimit });
     } else {
-      response.status(200).json({ message: "productos", products });
+      res.status(200).json({ message: "productos", products });
     }
   } catch (error) {
-    response.status(500).json({ error });
+    res.status(500).json({ error });
   }
 };
 
