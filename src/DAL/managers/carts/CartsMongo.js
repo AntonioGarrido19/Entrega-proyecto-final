@@ -11,8 +11,6 @@ class CartsMongo {
     }
   }
 
-
-
   async createOne(obj) {
     try {
       const cart = await cartsModel.create(obj);
@@ -40,7 +38,6 @@ class CartsMongo {
     }
   }
 
-
   async deleteCart(id) {
     try {
       const response = await cartsModel.findByIdAndDelete(id);
@@ -65,10 +62,6 @@ class CartsMongo {
       return error;
     }
   }
-
-
-
-  
 
   async updateProductQuantity(cartId, productId, updatedQuantity) {
     try {
