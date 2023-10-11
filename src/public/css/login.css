@@ -77,9 +77,6 @@ body button {
   cursor: pointer;
 }
 
-.login_container a {
-}
-
 .options_container {
   display: flex;
   justify-content: space-between;

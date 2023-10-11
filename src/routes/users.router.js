@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { usersManager } from "../dao/managers/session/UsersMongo.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { jwtValidation } from "../middlewares/jwt.middleware.js";
 import {findUser, createUser, deleteUser} from "../controllers/users.controller.js"

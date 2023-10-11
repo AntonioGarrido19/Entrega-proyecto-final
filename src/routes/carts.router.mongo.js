@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { ObjectId } from "mongodb";
-import { cartsModel } from "../db/models/carts-model.js";
 import { cartsMongo } from "../DAL/managers/carts/CartsMongo.js";
 
 const router = Router();

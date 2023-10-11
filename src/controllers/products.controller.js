@@ -1,62 +1,71 @@
-import {
-  findAll,
-  create,
-  findById,
-  update,
-  deleteOne,
-} from "../services/products.service.js";
+import { productsService } from "../services/products.service.js";
 
-export const getProducts = async (req, res) => {
-  try {
-    const products = findAll();
-
-    const limit = req.query.limit;
-    if (limit) {
-      const resLimit = products.slice(0, parseInt(limit, 10));
-      res.status(200).json({ message: "productos", products: resLimit });
-    } else {
-      res.status(200).json({ message: "productos", products });
+class ProductsController {
+  async getProducts(req, res) {
+    try {
+      const products = await productsService.findAll();
+      //const payloadArray = products.info.payload
+      res.status(200).json({ products });
+    } catch (error) {
+      res.status(500).json({ error });
     }
-  } catch (error) {
-    res.status(500).json({ error });
   }
-};
 
-export const createProduct = async (req, res) => {
-  try {
-    const newProduct = create(req.body);
-    res.status(200).json({ message: "Product added", product: newProduct });
-  } catch (error) {
-    res.status(500).json({ error });
+  async createProduct(req, res) {
+    const { title, description, price, thumbnail, code, stock } = req.body;
+    if (!title || !description || !price || !thumbnail || !code || !stock) {
+      return res.status(200).json({ message: "Some data is missing" });
+    }
+    try {
+      const newProduct = await productsService.create(req.body);
+      res.status(200).json({ message: "Product created", product: newProduct });
+    } catch (error) {
+      res.status(500).json({ error });
+    }
   }
-};
 
-export const getProductById = async (req, res) => {
-  const { pid } = req.params;
-  try {
-    const product = findById(+pid);
-    res.status(200).json({ message: "Product", product });
-  } catch (error) {
-    res.status.apply(500).json({ error });
+  async getProductById(req, res) {
+    const { id } = req.params;
+    try {
+      const product = await productsService.findById(id);
+      if (!product) {
+        res.status(400).json({ message: "Invalid ID" });
+      } else {
+        res.status(200).json({ message: "Product found", product });
+      }
+    } catch (error) {
+      res.status(500).json({ error });
+    }
   }
-};
 
-export const updateProduct = async (req, res) => {
-  const { pid } = req.params;
-  try {
-    const productUpdate = update(+pid, req.body);
-    res.status(200).json({ message: "User updated" });
-  } catch (error) {
-    res.status(500).json({ error });
+  async updateProduct(req, res) {
+    const { id } = req.params;
+    const updatedProductData = req.body;
+    try {
+      const product = await productsService.update(id, updatedProductData);
+      if (!product) {
+        res.status(400).json({ message: "Invalid ID" });
+      } else {
+        res.status(200).json({ message: "Product found", product });
+      }
+    } catch (error) {
+      res.status(500).json({ error });
+    }
   }
-};
 
-export const deleteProduct = async (req, res) => {
-  const { pid } = req.params;
-  try {
-    const response = deleteOne(+pid);
-    res.status(200).json({ message: "Prodcut deleted" });
-  } catch (error) {
-    res.status(500).json({ error });
+  async deleteProduct(req, res) {
+    const { id } = req.params;
+    try {
+      const product = await productsService.deleteOne(id);
+      if (!product) {
+        res.status(400).json({ message: "Invalid ID" });
+      } else {
+        res.status(200).json({ message: "Product Deleted", product });
+      }
+    } catch (error) {
+      res.status(500).json({ error });
+    }
   }
-};
+}
+
+export const productsController = new ProductsController();

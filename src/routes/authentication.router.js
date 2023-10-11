@@ -3,6 +3,7 @@ import { usersManager } from '../DAL/managers/session/UsersMongo.js'
 import { hashData } from "../utils.js"
 import passport from 'passport'
 
+//ESTO DEBERIA TENER UN SERVICE Y UN CONTROLLER?
 
 const router = Router()
 

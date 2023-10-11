@@ -1,80 +1,16 @@
-import { Router } from "express"
-import {productsMongo} from "../DAL/managers/products/ProductsMongo.js"
+import { Router } from "express";
+import {productsController} from "../controllers/products.controller.js"
 
-const router = Router()
+const router = Router();
 
+router.get("/", productsController.getProducts);
 
-router.get('/', async(req, res) => {
-    try {
-        const products = await productsMongo.findAll(req.query)
-        //const payloadArray = products.info.payload   
-     
-        res.status(200).json({products})
-    } catch (error) {
-        res.status(500).json({error})   
-    }})
+router.post("/", productsController.createProduct);
 
+router.get("/:pid", productsController.getProductById);
 
+router.put("/:pid", productsController.updateProduct);
 
-router.get('/:id', async(req, res) => {
-    const {id} = req.params
-    try {
-        const product = await productsMongo.findById(id)
-        if(!product){
-            res.status(400).json({message:'Invalid ID'})
-        } else {
-            res.status(200).json({message:'Product found', product})
-        }
-        
-    } catch (error) {
-        res.status(500).json({error})
-    }
-})
+router.delete("/:pid", productsController.deleteProduct);
 
-router.post('/', async(req, res) => {
-    const {title, description, price, thumbnail, code, stock} = req.body
-    if(!title  || !description  || !price  || !thumbnail  || !code  || !stock){
-       return res.status(200).json({message:'Some data is missing'})
-    }
-    try {
-        const newProduct = await productsMongo.createOne(req.body)
-        res.status(200).json({message:'Product created', product: newProduct})
-
-    } catch (error) {
-        res.status(500).json({error})
-    }
-
-})
-
-router.put('/:id', async(req, res) => {
-    const {id} = req.params
-    const updatedProductData = req.body;
-    try {
-        const product = await productsMongo.updateOne(id, updatedProductData)
-        if(!product){
-            res.status(400).json({message:'Invalid ID'})
-        } else {
-            res.status(200).json({message:'Product found', product})
-        }
-        
-    } catch (error) {
-        res.status(500).json({error})
-    }
-})
-
-router.delete('/:id', async(req, res) => {
-    const {id} = req.params
-    try {
-        const product = await productsMongo.deleteOne(id)
-        if(!product){
-            res.status(400).json({message:'Invalid ID'})
-        } else {
-            res.status(200).json({message:'Product found', product})
-        }
-        
-    } catch (error) {
-        res.status(500).json({error})
-    }
-})
-
-export default router
+export default router;

@@ -1,9 +1,10 @@
 import express from "express";
+import cors from "cors";
 import { __dirname } from "./utils.js";
 import handlebars from "express-handlebars";
 import viewsRouter from "./routes/views.router.js";
 import { Server } from "socket.io";
-import "./db/dbConfig.js";
+import "./DAL/mongoDB/dbConfig.js";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import mongoStore from "connect-mongo";
@@ -26,6 +27,7 @@ import { cartsMongo } from "./DAL/managers/carts/CartsMongo.js";
 const PORT = config.port;
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
