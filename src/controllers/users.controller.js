@@ -1,9 +1,11 @@
-import { findUser, create, deleteUser } from "../services/users.service.js"
+import { usersService} from "../services/users.service.js"
 
-export const findUser = (req, res) => {
+class UsersController {
+
+async findUser (req, res) {
     const { username } = req.params;
     try {
-      const user = findUser(username);
+      const user = usersService.findUser(username);
       if (!user) return res.status(404).json({ message: "User not found" });
       res.status(200).json({ message: "User found", user });
     } catch (error) {
@@ -11,13 +13,17 @@ export const findUser = (req, res) => {
     }
 }
 
-export const deleteUser = (req, res) => {
+async deleteUser (req, res) {
     const {username} = req.params;
     try {
-        const user = deleteUser(username);
+        const user = usersService.deleteUser(username);
         if(!user) return res.status(404).json({message: "User not found"});
         res.status(200).json({message: error.message})
     } catch (error) {
         res.status(500).json({message: error.message})
     }
 }
+
+}
+
+export const usersController = new UsersController();

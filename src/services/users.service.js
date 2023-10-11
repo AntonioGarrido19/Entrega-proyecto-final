@@ -1,16 +1,22 @@
 import { usersManager } from "../DAL/managers/session/UsersMongo.js";
 
-export const findUser = async (username) => {
+class UsersService {
+
+async findUser (username) {
   const users = await usersManager.findUser({ username });
   return users;
 };
 
-export const create = async (user) => {
+async create (user) {
   const newUser = await usersManager.create(user);
   return newUser;
 };
 
-export const deleteUser = async (username) => {
+async deleteUser (username) {
   const response = await usersManager.deleteUser({ username });
   return response;
 };
+
+}
+
+export const usersService = new UsersService()
