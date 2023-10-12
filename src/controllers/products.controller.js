@@ -41,6 +41,7 @@ class ProductsController {
   async updateProduct(req, res) {
     const { pid } = req.params;
     const updatedProductData = req.body;
+    console.log(updatedProductData);
     try {
       const product = await productsService.update(pid, updatedProductData);
       if (!product) {

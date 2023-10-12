@@ -2,12 +2,13 @@ import { cartsMongo } from "../DAL/managers/carts/CartsMongo.js";
 
 class CartsService {
   async findAll() {
-    const carts = cartsMongo.findAll();
+    const carts = await cartsMongo.findAll();
+    //console.log("carts from the database:", carts);
     return carts;
   }
 
-  async create() {
-    const cart = cartsMongo.createOne(obj);
+  async create(obj) {
+    const cart = await cartsMongo.createOne(obj);
     return cart;
   }
 
@@ -17,7 +18,7 @@ class CartsService {
   }
 
   async update(cid, obj) {
-    const cart = await cartsMongo.updateOne({ _id: cid }, { ...obj });
+    const cart = await cartsMongo.updateOne(cid, obj);
     return cart;
   }
 

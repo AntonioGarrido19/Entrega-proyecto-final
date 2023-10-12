@@ -52,6 +52,8 @@ class ProductsMongo {
   }
 
   async updateOne(pid, updatedData) {
+    console.log("pid:", pid);
+    //console.log("updatedData:", updatedData);
     try {
       const response = await productsModel.updateOne(
         { _id: pid },
