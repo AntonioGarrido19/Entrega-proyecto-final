@@ -11,7 +11,7 @@ class ProductsMongo {
         page,
         sort: { price: sort },
       });
-      console.log("Page:", page);
+      //console.log("Page:", page);
       const info = {
         count: result.totalDocs,
         payload: result.docs,
@@ -42,19 +42,19 @@ class ProductsMongo {
     }
   }
 
-  async findById(id) {
+  async findById(pid) {
     try {
-      const product = await productsModel.findById(id);
+      const product = await productsModel.findById(pid);
       return product;
     } catch (error) {
       return error;
     }
   }
 
-  async updateOne(id, updatedData) {
+  async updateOne(pid, updatedData) {
     try {
       const response = await productsModel.updateOne(
-        { _id: id },
+        { _id: pid },
         { $set: updatedData }
       );
       return response;
@@ -63,9 +63,9 @@ class ProductsMongo {
     }
   }
 
-  async deleteOne(id) {
+  async deleteOne(pid) {
     try {
-      const response = await productsModel.findByIdAndDelete(id);
+      const response = await productsModel.findByIdAndDelete(pid);
       return response;
     } catch (error) {
       return error;

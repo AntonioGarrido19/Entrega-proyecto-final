@@ -11,33 +11,33 @@ class CartsService {
     return cart;
   }
 
-  async findById(id) {
-    const cart = await cartsMongo.findById(id);
+  async findById(cid) {
+    const cart = await cartsMongo.findById(cid);
     return cart;
   }
 
-  async update(id, obj) {
-    const cart = await cartsMongo.updateOne({ _id: id }, { ...obj });
+  async update(cid, obj) {
+    const cart = await cartsMongo.updateOne({ _id: cid }, { ...obj });
     return cart;
   }
 
-  async deleteOne(id) {
-    const response = await cartsMongo.deleteCart(id);
+  async deleteOne(cid) {
+    const response = await cartsMongo.deleteCart(cid);
     return response;
   }
 
-  async deleteProduct(idCart, idProduct) {
+  async deleteProduct(cid, idProduct) {
     const response = await cartsMongo.deleteProduct(
-      idCart,
-      { _id: idCart },
+      cid,
+      { _id: cid },
       { $pull: { products: idProduct } }
     );
     return response;
   }
 
-  async updateProductQuantity(cartId, productId, updatedQuantity) {
+  async updateProductQuantity(cid, productId, updatedQuantity) {
     const response = await cartsMongo.updateProductQuantity(
-      cartId,
+      cid,
       productId,
       updatedQuantity
     );

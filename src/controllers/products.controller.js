@@ -3,7 +3,7 @@ import { productsService } from "../services/products.service.js";
 class ProductsController {
   async getProducts(req, res) {
     try {
-      const products = await productsService.findAll();
+      const products = await productsService.findAll({limit: 10, page: 1, sort: 'asc'});
       //const payloadArray = products.info.payload
       res.status(200).json({ products });
     } catch (error) {
@@ -25,9 +25,9 @@ class ProductsController {
   }
 
   async getProductById(req, res) {
-    const { id } = req.params;
+    const { pid } = req.params;
     try {
-      const product = await productsService.findById(id);
+      const product = await productsService.findById(pid);
       if (!product) {
         res.status(400).json({ message: "Invalid ID" });
       } else {
@@ -39,10 +39,10 @@ class ProductsController {
   }
 
   async updateProduct(req, res) {
-    const { id } = req.params;
+    const { pid } = req.params;
     const updatedProductData = req.body;
     try {
-      const product = await productsService.update(id, updatedProductData);
+      const product = await productsService.update(pid, updatedProductData);
       if (!product) {
         res.status(400).json({ message: "Invalid ID" });
       } else {
@@ -54,9 +54,9 @@ class ProductsController {
   }
 
   async deleteProduct(req, res) {
-    const { id } = req.params;
+    const { pid } = req.params;
     try {
-      const product = await productsService.deleteOne(id);
+      const product = await productsService.deleteOne(pid);
       if (!product) {
         res.status(400).json({ message: "Invalid ID" });
       } else {

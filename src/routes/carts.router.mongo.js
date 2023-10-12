@@ -7,9 +7,9 @@ router.get("/", cartsController.getCarts);
 
 router.post("/", cartsController.createCart);
 
-router.get("/:id", cartsController.getCartById);
+router.get("/:cid", cartsController.getCartById);
 
-router.delete("/:id", cartsController.deleteCart);
+router.delete("/:cid", cartsController.deleteCart);
 
 router.delete(
   "/:idCart/products/:idProduct",

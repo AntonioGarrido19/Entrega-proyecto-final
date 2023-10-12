@@ -4,6 +4,7 @@ class ProductsService {
 
  async findAll (obj) {
     const products = await productsMongo.findAll(obj);
+    //console.log(products);
     return products;
   };
 
@@ -12,24 +13,24 @@ class ProductsService {
     return product;
   };
 
-   async findById(id) {
-    const product = await productsMongo.findById(id);
+   async findById(pid) {
+    const product = await productsMongo.findById(pid);
     if (!product){
         throw new Error('Product not found')
     }
     return product;
   };
 
-   async update (id, updatedData) {
+   async update (pid, updatedData) {
     const product = await productsMongo.updateOne(
-      { _id: id },
+      { _id: pid },
       { $set: updatedData }
     );
     return product;
   };
 
-  async deleteOne (id) {
-    const response = await productsMongo.deleteOne(id);
+  async deleteOne (pid) {
+    const response = await productsMongo.deleteOne(pid);
     return response;
   };
 }

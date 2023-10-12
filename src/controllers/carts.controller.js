@@ -28,9 +28,9 @@ class CartsController {
   }
 
   async getCartById(req, res) {
-    const { id } = req.params;
+    const { cid } = req.params;
     try {
-      const cart = await cartsService.findById(id);
+      const cart = await cartsService.findById(cid);
       if (!cart) {
         res.status(400).json({ message: "Invalid ID" });
       } else {
@@ -42,15 +42,15 @@ class CartsController {
   }
 
   async deleteCart(req, res) {
-    const { id } = req.params;
-    const deleteOneCart = await cartsService.deleteOne(id);
+    const { cid } = req.params;
+    const deleteOneCart = await cartsService.deleteOne(cid);
     res.status(200).json({ deleteOneCart });
   }
 
   async deleteCartProduct(req, res) {
-    const { idCart, idProduct } = req.params;
+    const { cid, idProduct } = req.params;
     try {
-      const result = await cartsService.deleteProduct(idCart, idProduct);
+      const result = await cartsService.deleteProduct(cid, idProduct);
       res.status(200).json({ message: "Product deleted" });
     } catch (error) {
       res.status(500).json({ error });
