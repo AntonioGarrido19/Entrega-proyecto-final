@@ -1,39 +1,21 @@
 import {Router} from "express";
+import { loginController } from "../controllers/login.controller.js"
 import { usersManager } from '../DAL/managers/session/UsersMongo.js'
 import { compareData } from "../utils.js"
 
 
 const router= Router()
 
-router.post('/', async (req,res)=>{
-    const {username,password} = req.body
-    if(!username || !password){
-        return res.status(400).json({message: 'Some data is missing'})
-    }
-    const userDB = await usersManager.findUser(username)
-    if(!userDB){
-        return res.status(400).json({message:'Signup first'})
-    }
-    const isPasswordValid = await compareData(password, userDB.password)
-    if(!isPasswordValid){
-        return res.status(401).json({message:'Username or password not valid'})
-    }
+router.post('/', loginController.userLogin)
 
-    req.session['username'] = username
-    res.redirect('/api/views/products')
-
-})
-
-router.get('/home', async(req,res)=>{
-    const {username} = req.session
-    const userDB = await usersManager.findUser(username)
-    res.redirect('/products')
-})
-
+// router.get('/home', async(req,res)=>{
+//     const {username} = req.session
+//     const userDB = await usersManager.findUser(username)
+//     res.redirect('/products')
+// })
 
 
 export default router
-
 
 // router.get('/home', async(req,res)=>{
 //     const {username} = req.session

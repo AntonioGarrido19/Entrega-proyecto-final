@@ -5,7 +5,7 @@ class CartsController {
   async getCarts(req, res) {
     try {
       const carts = await cartsService.findAll();
-      //console.log("Carts from the database:", carts);
+      console.log("Carts from the database:", carts);
       if (carts.length) {
         res.status(200).json({ message: "Carts", carts });
       } else {

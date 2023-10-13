@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { productsMongo } from "../DAL/managers/products/ProductsMongo.js";
 import {cartsService} from "../services/carts.service.js"
+import {productsService} from "../services/products.service.js"
 
 const router = Router();
 
 router.get("/products", async (req, res) => {
   try {
-    const products = await productsMongo.findAll(req.query);
+    const products = await productsService.findAll(req.query);
     const payloadArray = products.info.payload;
     const payloadArrayMap = payloadArray.map((e) => ({
       _id: e._id,
@@ -19,10 +19,10 @@ router.get("/products", async (req, res) => {
     }));
 
     //console.log('Payload Array:', payloadArray);
-    const username = req.user.username;
+    //const username = req.user.username;
     //console.log('username', username);
 
-    res.render("home", { payloadArrayMap, username }); //username
+    res.render("home", { payloadArrayMap }); //username
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -31,7 +31,7 @@ router.get("/products", async (req, res) => {
 router.get("/product-view/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await productsMongo.findById(id);
+    const product = await productsService.findById(id);
     console.log(product);
     if (!product) {
       return res.status(400).json({ message: "Invalid ID" });

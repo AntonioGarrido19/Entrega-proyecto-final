@@ -3,7 +3,7 @@ import { usersManager } from "../DAL/managers/session/UsersMongo.js";
 class UsersService {
 
 async findUser (username) {
-  const users = await usersManager.findUser({ username });
+  const users = await usersManager.findUser(username);
   return users;
 };
 
