@@ -5,7 +5,7 @@ class MessagesMongo {
 
     async findAll(){
         try {
-            const messages = await messagesModel.find({})
+            const messages = await messagesModel.find()
             return messages
         } catch (error) {
             return error

@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/", cartsController.getCarts);
 
-router.post("/", cartsController.createCart);
+router.post("/", jwtValidation,authMiddleware('user'), cartsController.createCart);
 
 router.get("/:cid", cartsController.getCartById);
 

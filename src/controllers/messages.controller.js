@@ -2,7 +2,7 @@ import {findAll, create, findById} from "../services/messages.service.js"
 
 export const getMessages = async (req,res)=>{
     try {
-        const messages = findAll();
+        const messages = await findAll();
         console.log(messages);
         res.status(200).json({ messages });
       } catch (error) {
@@ -17,7 +17,7 @@ export const createMessage = async (req,res)=>{
       return res.status(200).json({ message: "Some data is missing" });
     }
     try {
-      const newMessage = create(req.body);
+      const newMessage = await create(req.body);
       res.status(200).json({ message: "message created", message: newMessage });
     } catch (error) {
       res.status(500).json({ error });
@@ -27,7 +27,7 @@ export const createMessage = async (req,res)=>{
 export const getMessageById = async (req,res)=>{
     const { id } = req.params;
     try {
-      const message = findById(id);
+      const message = await findById(id);
       if (!product) {
         res.status(400).json({ message: "Invalid message ID" });
       } else {

@@ -4,10 +4,13 @@ import {
   createMessage,
   getMessageById,
 } from "../controllers/messages.controller.js";
+import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { jwtValidation } from "../middlewares/jwt.middleware.js";
+
 
 const router = Router();
 
-router.get("/", getMessages);
+router.get("/", jwtValidation,authMiddleware('user'), getMessages);
 
 router.post("/", createMessage);
 

@@ -12,12 +12,17 @@ async findUser (username) {
 };
 
 async create (user) {
-  const hashPassword = await hashData(user.password)
-  if (!hashPassword) throw new Error ("Password can not be hashed")
-  const userDTO = new UsersDTO({ ...user, password: hashPassword })
-  const newUser = await usersManager.create(userDTO);
+  const newUser = await usersManager.create(user);
   return newUser;
 };
+
+// async create (user) {
+//   const hashPassword = await hashData(user.password)
+//   if (!hashPassword) throw new Error ("Password can not be hashed")
+//   const userDTO = new UsersDTO({ ...user, password: hashPassword })
+//   const newUser = await usersManager.create(userDTO);
+//   return newUser;
+// };
 
 async deleteUser (username) {
   const response = await usersManager.deleteUser({ username });
