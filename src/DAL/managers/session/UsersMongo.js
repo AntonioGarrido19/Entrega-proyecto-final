@@ -24,7 +24,7 @@ class UsersManager {
 
     async deleteUser(username){
         try {
-            const user = await usersModel.findOneAndDelete({username})
+            const user = await usersModel.findOneAndDelete(username)
             return user
         } catch (error) {
             return error

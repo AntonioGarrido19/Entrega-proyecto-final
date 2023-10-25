@@ -11,7 +11,7 @@ const router = Router();
 //sin cookies
 router.post("/", jwtController.jwtLogin);
 
-router.get('/validation', passport.authenticate('jwt',{ session: false}), (req,res)=>{
+router.get('/validation', jwtValidation, (req,res)=>{
   res.json({message:'Probando',user:req.user})
 })
 

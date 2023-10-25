@@ -82,15 +82,17 @@ passport.use(
 
 
 
-passport.use('jwt',new JWTStrategy({
+// passport.use('jwt',new JWTStrategy({
 
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: secretKey
+//   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+//   secretOrKey: secretKey
 
-},async (jwt_payload, done)=>{
-  console.log('jwt_payload', jwt_payload);
-  done(null,jwt_payload.user)
-}))
+// },async (jwt_payload, done)=>{
+//   console.log('jwt_payload', jwt_payload);
+
+//   done(null,jwt_payload.user)
+//   req.user = jwt_payload.user
+// }))
 
 
 //cookies

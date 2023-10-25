@@ -1,6 +1,8 @@
 import { Router } from "express";
+import jwt from 'jsonwebtoken'
 import {cartsService} from "../services/carts.service.js"
 import {productsService} from "../services/products.service.js"
+import {jwtController } from "../controllers/jwt.controller.js"
 
 const router = Router();
 
@@ -17,10 +19,7 @@ router.get("/products", async (req, res) => {
       code: e.code,
       stock: e.stock,
     }));
-
-    //console.log('Payload Array:', payloadArray);
-    //const username = req.user.username;
-    //console.log('username', username);
+  
 
     res.render("home", { payloadArrayMap }); //username
   } catch (error) {

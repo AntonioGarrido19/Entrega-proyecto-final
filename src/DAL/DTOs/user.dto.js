@@ -1,7 +1,7 @@
 //ES NECESARIOOO???
 
 
-export default class UserDto {
+export default class UsersDTO {
     constructor (user) {
         this.name = `${user.first_name} ${user.last_name}`;
         this.email = user.email;

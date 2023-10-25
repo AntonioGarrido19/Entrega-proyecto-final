@@ -20,22 +20,11 @@ class JwtController {
             if (!isPasswordValid) {
               return res.status(401).json({ message: "Username or password not valid please try again" });
             }
-            //const token = generateToken(userDB);
-            //console.log('token',token);
-             // Generate a JWT token with the username in the payload
-             const tokenPayload = {
-              first_name: userDB.first_name,
-              last_name:  userDB.last_name,
-              username: userDB.username,
-              email: userDB.email,
-    
-              // You can include other data in the payload if needed
-          };
-          const token = jwt.sign(tokenPayload, secretKey);
-    
-          // Log the token for debugging purposes
-          console.log('JWT Token:', token);
-          
+            const token = generateToken(userDB);
+            console.log('token',token);
+
+
+        
             res.redirect('/api/views/products')
         } catch (error) {
             res.status(500).json({message:error})

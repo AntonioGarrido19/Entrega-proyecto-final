@@ -5,7 +5,7 @@ import {usersController} from "../controllers/users.controller.js"
 
 const router = Router();
 
-router.get("/:username",jwtValidation,authMiddleware('premium'), usersController.findUser)
+router.get("/:username",jwtValidation,authMiddleware('user'), usersController.findUser)
 
 router.delete("/:username",jwtValidation,authMiddleware('admin'), usersController.deleteUser)
 

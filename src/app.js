@@ -15,7 +15,7 @@ import config from "./config.js"
 import productsRouter from "./routes/products.router.mongo.js";
 import cartsRouter from "./routes/carts.router.mongo.js";
 import messagesRouter from "./routes/messages.router.mongo.js";
-import usersRouter from "./routes/authentication.router.js";
+import usersRouter from "./routes/users.router.js";
 import loginRouter from "./routes/login.router.js";
 import jwtRouter from "./routes/jwt.router.js"
 import authenticationRouter from "./routes/authentication.router.js"

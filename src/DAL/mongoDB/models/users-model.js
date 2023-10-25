@@ -24,14 +24,10 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  user: {
-    type: Boolean,
-    default: true,
-  },
   role: {
     type: String,
     enum: ['admin','user','premium'],
-    defaul:'user'
+    default:'user'
   },
   fromGithub: {
     type: Boolean,
