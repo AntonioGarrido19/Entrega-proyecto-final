@@ -11,6 +11,8 @@ import mongoStore from "connect-mongo";
 import passport from 'passport'
 import './passport/passportStrategies.js'
 import config from "./config.js"
+import { generateUser } from './mocks.js'
+import { generateProducts } from './mocks.js'
 
 import productsRouter from "./routes/products.router.mongo.js";
 import cartsRouter from "./routes/carts.router.mongo.js";
@@ -75,6 +77,26 @@ app.use("/api/users", usersRouter);
 const httpServer = app.listen(PORT, () => {
   console.log("servidor creado");
 });
+
+
+//Mocks
+app.get('/api/usersMock', (req,res) => {
+  const users = []
+  for (let i=0; i<10; i++){
+    const userMock = generateUser()
+    users.push(userMock)
+  }
+  res.json(users)
+})
+
+app.get('/api/mockingProducts',(req,res) => {
+  const products = []
+  for (let i=0; i<100; i++){
+    const productsMock = generateProducts()
+    products.push(productsMock)
+  }
+  res.json(products)
+})
 
 
 
