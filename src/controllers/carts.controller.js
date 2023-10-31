@@ -1,5 +1,7 @@
 import { cartsService } from "../services/carts.service.js";
+import { productsService} from "../services/products.service.js";
 import { ObjectId } from "mongodb";
+import { productsModel } from "../DAL/mongoDB/models/products-model.js";
 
 class CartsController {
   async getCarts(req, res) {
@@ -104,6 +106,31 @@ class CartsController {
         });
     }
   }
+
+
+  async getCartAndProducts(req,res) {
+    const { cid } = req.params;
+    //const cartId = new ObjectId(cid)
+    try {
+      const cart = await cartsService.findById(cid);
+      if (!cart) {
+        res.status(400).json({ message: "Invalid ID" });
+      } else {
+        const products = await productsService.findAll({limit: 100, page: 1, sort: 'asc'})
+        const cartProductsIds = cart.products.map(product => product._id);
+        const cartProductsData = await productsService.findAll({ _id: { $in: cartProductsIds } })
+        const productsInCart = await productsModel.find({ _id: { $in: cartProductsIds } }).exec();
+
+        console.log(cartProductsIds);
+        console.log(cartProductsData);
+        console.log(productsInCart);
+        res.status(200).json({ message: "Cart and products found", cart, products});
+      }
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+  }
+
 }
 
 export const cartsController = new CartsController();

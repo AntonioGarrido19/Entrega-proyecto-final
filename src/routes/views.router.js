@@ -56,7 +56,7 @@ router.get("/carts/:cid", async (req, res) => {
   try {
     const cart = await cartsService.findById(cid);
     console.log(cart);
-    res.render("cart", { cart });
+    res.render("cart",  {products: cart.products } );
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al buscar el carrito" });

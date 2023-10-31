@@ -7,19 +7,18 @@
   <body>
     <h1>Cart</h1>
       <ul>
-    {{#each cart.products}}
+    {{#each products}}
     <li>
-      <h2>{{this.id.title}}</h2>
-      <p>Price: {{this.id.price}}</p>
-      <p>Description: {{this.id.description}}</p>
-      <p>Code: {{this.id.code}}</p>
-      <p>Stock: {{this.id.stock}}</p>
-      <p>Quantity: {{this.quantity}}</p>
+      <h2>{{_id.title}}</h2>
+      <p>Price: {{_id.price}}</p>
+      <p>Description: {{_id.description}}</p>
+      <p>Code: {{_id.code}}</p>
+      <p>Stock: {{_id.stock}}</p>
+      <p>Quantity: {{_id.quantity}}</p>
     </li>
     {{/each}}
   </ul>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/cartIndex.js"></script>
   </body>
 </html>
