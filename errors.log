@@ -30,3 +30,38 @@
   level: 'error',
   timestamp: '2023-11-07T01:14:47.158Z'
 }
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T15:37:19.763Z'
+}
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T15:50:05.377Z'
+}
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T15:51:31.289Z'
+}
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T15:51:35.754Z'
+}
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T15:51:38.781Z'
+}
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T15:51:41.802Z'
+}
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T15:55:53.841Z'
+}

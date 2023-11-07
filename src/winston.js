@@ -93,3 +93,5 @@ if (config.environment === "development") {
     ],
   });
 }
+
+//AGREGAR LOGS EN LOS TRY CATCH
