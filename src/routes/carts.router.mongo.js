@@ -17,7 +17,7 @@ router.post(
   cartsController.createCart
 );
 
-router.get("/purchase/:cid", jwtValidation, authMiddleware('user'), 
+router.get("/purchase/:cid", 
 cartsController.getCartAndProducts
 )
 

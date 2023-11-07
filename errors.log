@@ -1,0 +1,32 @@
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T00:47:35.493Z'
+}
+{
+  message: 'servidor creado',
+  level: 'info',
+  timestamp: '2023-11-07T00:54:27.472Z'
+}
+[31mfatal[39m: Fatal
+[33merror[39m: Error
+{
+  message: 'Fatal',
+  level: 'fatal',
+  timestamp: '2023-11-07T01:14:21.461Z'
+}
+{
+  message: 'Error',
+  level: 'error',
+  timestamp: '2023-11-07T01:14:21.463Z'
+}
+{
+  message: 'Fatal',
+  level: 'fatal',
+  timestamp: '2023-11-07T01:14:47.157Z'
+}
+{
+  message: 'Error',
+  level: 'error',
+  timestamp: '2023-11-07T01:14:47.158Z'
+}

@@ -118,11 +118,9 @@ class CartsController {
       } else {
         const products = await productsService.findAll({limit: 100, page: 1, sort: 'asc'})
         const cartProductsIds = cart.products.map(product => product._id);
-        const cartProductsData = await productsService.findAll({ _id: { $in: cartProductsIds } })
-        const productsInCart = await productsModel.find({ _id: { $in: cartProductsIds } }).exec();
+        const productsInCart = await productsModel.find({ _id: { $in: cartProductsIds } });
 
         console.log(cartProductsIds);
-        console.log(cartProductsData);
         console.log(productsInCart);
         res.status(200).json({ message: "Cart and products found", cart, products});
       }
@@ -130,7 +128,6 @@ class CartsController {
       res.status(500).json({ error });
     }
   }
-
 }
 
 export const cartsController = new CartsController();
