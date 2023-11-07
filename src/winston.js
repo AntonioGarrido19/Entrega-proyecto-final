@@ -69,12 +69,11 @@ if (config.environment === "development") {
   logger = winston.createLogger({
     levels: customLevel.levels,
     transports: [
-      new winston.transports.File({
-        filename: "./errors.log",
-        level: "error",
+      new winston.transports.Console({
+        level: "debug",
         format: winston.format.combine(
-          winston.format.timestamp(),
-          winston.format.prettyPrint()
+          winston.format.colorize({ colors: customLevel.colors }),
+          winston.format.simple()
         ),
       }),
     ],
@@ -83,11 +82,12 @@ if (config.environment === "development") {
   logger = winston.createLogger({
     levels: customLevel.levels,
     transports: [
-      new winston.transports.Console({
-        level: "debug",
+      new winston.transports.File({
+        filename: "./errors.log",
+        level: "info",
         format: winston.format.combine(
-          winston.format.colorize({ colors: customLevel.colors }),
-          winston.format.simple()
+          winston.format.timestamp(),
+          winston.format.prettyPrint()
         ),
       }),
     ],
