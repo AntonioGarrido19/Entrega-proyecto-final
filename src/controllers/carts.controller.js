@@ -1,6 +1,8 @@
 import { cartsService } from "../services/carts.service.js";
 import { productsService } from "../services/products.service.js";
 import { ObjectId } from "mongodb";
+import CustomError from "../errors/CustomError.js";
+import { ErrorMessage, ErrorName } from "../errors/error.enum.js";
 import { productsMongo } from "../DAL/managers/products/ProductsMongo.js";
 import { productsModel } from "../DAL/mongoDB/models/products-model.js";
 import { logger } from "../winston.js";
@@ -23,7 +25,7 @@ class CartsController {
   async createCart(req, res) {
     const { products } = req.body;
     if (!products) {
-      return res.status(400).json({ message: "Some data is missing" });
+      throw new CustomError(ErrorMessage.CART_MISSING_DATA);
     }
     try {
       const newCart = await cartsService.create(req.body);
@@ -33,12 +35,13 @@ class CartsController {
     }
   }
 
+  //REVISAR
   async getCartById(req, res) {
     const { cid } = req.params;
     try {
       const cart = await cartsService.findById(cid);
       if (!cart) {
-        res.status(400).json({ message: "Invalid ID" });
+        throw new CustomError(ErrorMessage.CART_NOT_FOUND);
       } else {
         res.status(200).json({ message: "Cart found", cart });
       }
@@ -50,7 +53,11 @@ class CartsController {
   async deleteCart(req, res) {
     const { cid } = req.params;
     const deleteOneCart = await cartsService.deleteOne(cid);
-    res.status(200).json({ deleteOneCart });
+    if (!deleteOneCart) {
+      throw new CustomError(ErrorMessage.CART_NOT_FOUND);
+    } else {
+      res.status(200).json({ message: "Cart Deleted", deleteOneCart });
+    }
   }
 
   async deleteCartProduct(req, res) {
@@ -99,7 +106,6 @@ class CartsController {
         },
       });
     } catch (error) {
-      console.log(error);
       res.status(500).json({
         error: "Error al actualizar la cantidad del producto en el carrito",
       });
@@ -108,54 +114,63 @@ class CartsController {
 
   async getCartAndProducts(req, res) {
     const { cid } = req.params;
-    //const cartId = new ObjectId(cid)
+
     try {
       const cart = await cartsService.findById(cid);
-      if (!cart) {
-        res.status(400).json({ message: "Invalid ID" });
-      } else {
-        const products = await productsService.findAll({
-          limit: 100,
-          page: 1,
-          sort: "asc",
-        });
-        // const cartProducts = cart.products.map((product) => product);
-        // logger.info(cartProducts);
-        const purchase = cart.products.map(async e => {
-          if (products.stock < e.stock) {
-            return {
-              stock: 0,
-              id: prod.id,
-              quantity: e.stock,
-              title: prod.title,
-            }
-          }
-        })
 
-        res
-          .status(200)
-          .json({ message: "Cart and products found", cart, products, purchase });
+      if (!cart) {
+        return res.status(400).json({ message: "Invalid ID" });
       }
+
+      const products = await productsService.findAll({
+        limit: 100,
+        page: 1,
+        sort: "asc",
+      });
+
+      const purchase = cart.products.map((cartProduct) => {
+        const productInProducts = products.info.payload.find(
+          (prod) => prod._id.toString() === cartProduct.id._id.toString()
+        );
+
+        console.log(productInProducts);
+
+        if (productInProducts) {
+          if (productInProducts.stock >= cartProduct.quantity) {
+            return {
+              title: productInProducts.title,
+              stock: productInProducts.stock,
+              id: productInProducts._id,
+              quantity: cartProduct.quantity,
+            };
+          } else {
+            return {
+              title: productInProducts.title,
+              stock: productInProducts.stock,
+              id: productInProducts._id,
+              quantity: cartProduct.quantity,
+              message: "Insufficient stock for the requested quantity", 
+            };
+          }
+        } else {
+          return {
+            title: cartProduct.id.title,
+            stock: 0,
+            id: cartProduct.id,
+            quantity: cartProduct.quantity,
+            message: "Product not found in the database", 
+          };
+        }
+      });
+
+
+      return res.status(200).json({ purchase });
     } catch (error) {
-      res.status(500).json({ error });
+      console.error("Error:", error); 
+      return res.status(500).json({ message: "An error occurred" });
     }
   }
 
-  // async purchase (req, res){
-  //   const {cid} = req.params;
-  //   const cart = await cartsService.findById(cid);
-  //   const purchase = cart.products.map(async e => {
-  //     const prod = await productsMongo.findById(e.id)
-  //     if (prod.stock < e.quantity) {
-  //       return {
-  //         stock: 0,
-  //         id: prod.id,
-  //         quantity: e.quantity,
-  //         title: prod.title,
-  //       }
-  //     }
-  //   })
-  // }
 }
 
 export const cartsController = new CartsController();

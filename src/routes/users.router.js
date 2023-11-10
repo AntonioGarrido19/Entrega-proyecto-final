@@ -18,6 +18,7 @@ router.get(
   authMiddleware("user"),
   (req, res) => {
     const userData = req.user;
+    console.log(userData);
     res.status(200).json({ user: userData });
   }
 );

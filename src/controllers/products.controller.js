@@ -1,4 +1,6 @@
 import { productsService } from "../services/products.service.js";
+import CustomError from "../errors/CustomError.js";
+import { ErrorMessage, ErrorName } from "../errors/error.enum.js";
 
 class ProductsController {
   async getProducts(req, res) {
@@ -14,7 +16,8 @@ class ProductsController {
   async createProduct(req, res) {
     const { title, description, price, thumbnail, code, stock } = req.body;
     if (!title || !description || !price || !thumbnail || !code || !stock) {
-      return res.status(200).json({ message: "Some data is missing" });
+      throw new CustomError(ErrorMessage.PRODUCT_MISSING_DATA);
+
     }
     try {
       const newProduct = await productsService.create(req.body);
@@ -29,7 +32,7 @@ class ProductsController {
     try {
       const product = await productsService.findById(pid);
       if (!product) {
-        res.status(400).json({ message: "Invalid ID" });
+        throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
       } else {
         res.status(200).json({ message: "Product found", product });
       }
@@ -45,7 +48,7 @@ class ProductsController {
     try {
       const product = await productsService.update(pid, updatedProductData);
       if (!product) {
-        res.status(400).json({ message: "Invalid ID" });
+        throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
       } else {
         res.status(200).json({ message: "Product found", product });
       }
@@ -59,7 +62,7 @@ class ProductsController {
     try {
       const product = await productsService.deleteOne(pid);
       if (!product) {
-        res.status(400).json({ message: "Invalid ID" });
+        throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
       } else {
         res.status(200).json({ message: "Product Deleted", product });
       }

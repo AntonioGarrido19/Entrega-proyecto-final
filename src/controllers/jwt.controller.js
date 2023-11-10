@@ -1,6 +1,8 @@
 import { usersService } from "../services/users.service.js"
 import jwt from 'jsonwebtoken'; 
 import { generateToken, compareData } from "../utils.js";
+import { logger } from "../winston.js";
+
 
 const secretKey = "KEYJWT"
 
@@ -10,7 +12,7 @@ class JwtController {
 
         try {
             if (!username || !password) {
-              return res.status(400).json({ message: "Some data is missing" });
+              throw new CustomError(ErrorMessage.USER_MISSING_DATA);
             }
             const userDB = await usersService.findUser(username);
             if (!userDB) {
@@ -21,9 +23,8 @@ class JwtController {
               return res.status(401).json({ message: "Username or password not valid please try again" });
             }
             const token = generateToken(userDB);
-            console.log('token',token);
-
-
+            logger.info(`Token: ${token}`);
+         
         
             res.redirect('/api/views/products')
         } catch (error) {

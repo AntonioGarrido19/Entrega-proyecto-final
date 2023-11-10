@@ -15,6 +15,8 @@ import compression from "express-compression";
 import CustomError from "./errors/CustomError.js"
 import { errorMiddleware } from "./errors/error.middleware.js";
 import {logger} from "./winston.js"
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from 'swagger-ui-express'
 
 import productsRouter from "./routes/products.router.mongo.js";
 import cartsRouter from "./routes/carts.router.mongo.js";
@@ -23,6 +25,7 @@ import usersRouter from "./routes/users.router.js";
 import loginRouter from "./routes/login.router.js";
 import jwtRouter from "./routes/jwt.router.js";
 import authenticationRouter from "./routes/authentication.router.js";
+import mailerRouter from "./routes/mailer.router.js"
 
 import { productsMongo } from "./DAL/managers/products/ProductsMongo.js";
 import { messagesMongo } from "./DAL/managers/messages/MessagesMongo.js";
@@ -30,8 +33,10 @@ import { cartsMongo } from "./DAL/managers/carts/CartsMongo.js";
 import { generateUser } from "./mocks.js";
 import { generateProducts } from "./mocks.js";
 
+
 const PORT = config.port;
 const app = express();
+
 
 app.use(errorMiddleware);
 app.use(compression());
@@ -73,6 +78,7 @@ app.use("/api/views", viewsRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/jwt", jwtRouter);
 app.use("/api/authentication", authenticationRouter);
+app.use("/api/mailer", mailerRouter)
 
 //Ruteo avanzado y auth
 app.use("/api/users", usersRouter);
@@ -115,12 +121,29 @@ app.get("/api/mockingProducts", (req, res) => {
   res.json(products);
 });
 
+
+//SWAGGER
+// const swaggerOptions = {
+//   definition: {
+//     openapi: "3.0.1",
+//     info:{
+//       title:"Documentacion de E-commerce",
+//       description: "API rest de e-commerce",
+//     },
+//   },
+//   apis: [`${path.join(__dirname, "../docs/**/*.yaml")}`]
+// };
+// const specs = swaggerJSDoc(swaggerOptions);
+
+// app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+
+
 const socketServer = new Server(httpServer);
 
 socketServer.on("connection", (socket) => {
-  console.log("cliente conectado");
+  logger.info("cliente conectado");
   socket.on("disconnect", () => {
-    console.log("cliente desconectado");
+    logger.info("cliente desconectado");
   });
 
   socket.on("getProducts", async () => {
@@ -128,20 +151,20 @@ socketServer.on("connection", (socket) => {
       const products = await productsMongo.findAll({});
       socket.emit("products", products);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      logger.warning("Error fetching products:", error);
     }
   });
 
   socket.on("newProduct", async (newProduct) => {
     socketServer.emit("added", newProduct);
     const product = await productsMongo.createOne(newProduct);
-    console.log(product);
+    logger.info(product);
     return product;
   });
 
   socket.on("deleteProduct", async (idProductDelete) => {
     const deletedProduct = await productsMongo.deleteOne(idProductDelete);
-    console.log(deletedProduct);
+    logger.info(deletedProduct);
     socketServer.emit("deleted", idProductDelete);
     return deletedProduct;
   });
@@ -149,7 +172,6 @@ socketServer.on("connection", (socket) => {
   socket.on("getMessages", async () => {
     try {
       const messages = await messagesMongo.findAll({});
-      //console.log(messages);
       socket.emit("messages", messages);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -159,7 +181,7 @@ socketServer.on("connection", (socket) => {
   socket.on("newMessage", async (messageInfo) => {
     socketServer.emit("new", messageInfo);
     const message = await messagesMongo.createOne(messageInfo);
-    console.log(message);
+    logger.info(message);
     return message;
   });
 

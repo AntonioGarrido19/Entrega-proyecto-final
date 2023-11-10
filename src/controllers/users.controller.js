@@ -33,7 +33,7 @@ async findUser(req, res) {
 async create (req, res) {
   const {first_name, last_name, email, password} = req.body
   if (!first_name || !last_name || email || password) {
-    return res.status(400).json({message: 'Some data is missing'})
+    throw new CustomError(ErrorMessage.USER_MISSING_DATA);
   }
   try {
     const createdUser = await usersService.create(req.body);
@@ -47,7 +47,9 @@ async deleteUser (req, res) {
     const {username} = req.params;
     try {
         const user = await usersService.deleteUser(username);
-        if(!user) return res.status(404).json({message: "User not found"});
+        if(!user) {
+        throw new CustomError(ErrorMessage.USER_NOT_FOUND);
+      }
         res.status(200).json({message: 'User deleted', deletedUser: user})
     } catch (error) {
         res.status(500).json({message: error.message})

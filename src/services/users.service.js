@@ -1,13 +1,14 @@
 import { usersManager } from "../DAL/managers/session/UsersMongo.js"
 import UsersDTO from "../DAL/DTOs/user.dto.js"
 import { hashData } from "../utils.js";
+import { logger } from "../winston.js";
 
 
 class UsersService {
 
 async findUser (username) {
   const users = await usersManager.findUser(username);
-  console.log(users);
+  logger.debug(users)
   return users;
 };
 

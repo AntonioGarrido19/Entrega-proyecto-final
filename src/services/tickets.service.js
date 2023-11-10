@@ -10,7 +10,6 @@ class TicketsService {
         try {        
           const newTicket = await ticketsMongo.createOne(obj);
           res.status(200).json({ message: "Ticket created", ticket: newTicket });
-          //return newTicket;
         } catch (error) {
           res.status(500).json({ error });
         }

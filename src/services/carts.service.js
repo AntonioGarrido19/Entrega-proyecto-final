@@ -3,7 +3,6 @@ import { cartsMongo } from "../DAL/managers/carts/CartsMongo.js";
 class CartsService {
   async findAll() {
     const carts = await cartsMongo.findAll();
-    //console.log("carts from the database:", carts);
     return carts;
   }
 

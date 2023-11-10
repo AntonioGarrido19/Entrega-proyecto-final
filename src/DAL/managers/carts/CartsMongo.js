@@ -5,12 +5,12 @@ class CartsMongo {
   async findAll() {
     try {
       const carts = await cartsModel.find({}).populate("products.id")
-      console.log("Carts from the database:", carts); // Add 
       return carts;
     } catch (error) {
       return error;
     }
   }
+
 
   async createOne(obj) {
     try {
