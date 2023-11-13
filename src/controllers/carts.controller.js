@@ -3,9 +3,10 @@ import { productsService } from "../services/products.service.js";
 import { ObjectId } from "mongodb";
 import CustomError from "../errors/CustomError.js";
 import { ErrorMessage, ErrorName } from "../errors/error.enum.js";
-import { productsMongo } from "../DAL/managers/products/ProductsMongo.js";
 import { productsModel } from "../DAL/mongoDB/models/products-model.js";
+import { ticketService } from "../services/tickets.service.js";
 import { logger } from "../winston.js";
+import { jwtValidation } from "../middlewares/jwt.middleware.js";
 
 class CartsController {
   async getCarts(req, res) {
@@ -25,7 +26,8 @@ class CartsController {
   async createCart(req, res) {
     const { products } = req.body;
     if (!products) {
-      throw new CustomError(ErrorMessage.CART_MISSING_DATA);
+      //throw new CustomError(ErrorMessage.CART_MISSING_DATA);
+      return res.status(400).json({ error: "Cart data is incomplete" });
     }
     try {
       const newCart = await cartsService.create(req.body);
@@ -41,7 +43,8 @@ class CartsController {
     try {
       const cart = await cartsService.findById(cid);
       if (!cart) {
-        throw new CustomError(ErrorMessage.CART_NOT_FOUND);
+        // throw new CustomError(ErrorMessage.CART_NOT_FOUND);
+        return res.status(400).json({ error: "Product not found" });
       } else {
         res.status(200).json({ message: "Cart found", cart });
       }
@@ -54,7 +57,8 @@ class CartsController {
     const { cid } = req.params;
     const deleteOneCart = await cartsService.deleteOne(cid);
     if (!deleteOneCart) {
-      throw new CustomError(ErrorMessage.CART_NOT_FOUND);
+      // throw new CustomError(ErrorMessage.CART_NOT_FOUND);
+      return res.status(400).json({ error: "Cart not found" });
     } else {
       res.status(200).json({ message: "Cart Deleted", deleteOneCart });
     }
@@ -113,64 +117,91 @@ class CartsController {
   }
 
   async getCartAndProducts(req, res) {
-    const { cid } = req.params;
+    jwtValidation(req, res, async () => {
+      const { cid } = req.params;
+      const userEmail = req.user.email;
 
-    try {
-      const cart = await cartsService.findById(cid);
+      try {
+        const cart = await cartsService.findById(cid);
 
-      if (!cart) {
-        return res.status(400).json({ message: "Invalid ID" });
-      }
+        if (!cart) {
+          return res.status(400).json({ message: "Invalid ID" });
+        }
 
-      const products = await productsService.findAll({
-        limit: 100,
-        page: 1,
-        sort: "asc",
-      });
+        const products = await productsService.findAll({
+          limit: 100,
+          page: 1,
+          sort: "asc",
+        });
 
-      const purchase = cart.products.map((cartProduct) => {
-        const productInProducts = products.info.payload.find(
-          (prod) => prod._id.toString() === cartProduct.id._id.toString()
-        );
+        const purchase = cart.products.map((cartProduct) => {
+          const productInProducts = products.info.payload.find(
+            (prod) => prod._id.toString() === cartProduct.id._id.toString()
+          );
 
-        console.log(productInProducts);
+          console.log(productInProducts);
 
-        if (productInProducts) {
-          if (productInProducts.stock >= cartProduct.quantity) {
-            return {
-              title: productInProducts.title,
-              stock: productInProducts.stock,
-              id: productInProducts._id,
-              quantity: cartProduct.quantity,
-            };
+          if (productInProducts) {
+            if (productInProducts.stock >= cartProduct.quantity) {
+              const updatedStock =
+                productInProducts.stock - cartProduct.quantity;
+              try {
+                (async () => {
+                  await productsService.update(productInProducts._id, {
+                    stock: updatedStock,
+                  });
+                })();
+                logger.info(`New product stock, ${updatedStock}`);
+              } catch (error) {
+                logger.warning("Error updating stock:", error);
+              }
+
+              return {
+                title: productInProducts.title,
+                stock: productInProducts.stock,
+                quantity: cartProduct.quantity,
+                price: productInProducts.price,
+                id: productInProducts._id,
+              };
+            } else {
+              return {
+                title: productInProducts.title,
+                stock: productInProducts.stock,
+                id: productInProducts._id,
+                quantity: cartProduct.quantity,
+                message: "Insufficient stock for the requested quantity",
+              };
+            }
           } else {
             return {
-              title: productInProducts.title,
-              stock: productInProducts.stock,
-              id: productInProducts._id,
+              title: cartProduct.id.title,
+              stock: 0,
+              id: cartProduct.id,
               quantity: cartProduct.quantity,
-              message: "Insufficient stock for the requested quantity", 
+              message: "Product not found in the database",
             };
           }
-        } else {
-          return {
-            title: cartProduct.id.title,
-            stock: 0,
-            id: cartProduct.id,
-            quantity: cartProduct.quantity,
-            message: "Product not found in the database", 
-          };
-        }
-      });
+        });
 
+        // Calculate the total amount for all products in the cart
+        const totalAmount = purchase.reduce((acc, product) => {
+          return acc + product.price * product.quantity;
+        }, 0);
 
-      return res.status(200).json({ purchase });
-    } catch (error) {
-      console.error("Error:", error); 
-      return res.status(500).json({ message: "An error occurred" });
-    }
+         // Pass totalAmount and userEmail to the createTicket method
+
+         const newTicket = await ticketService.createTicket(totalAmount, userEmail);
+
+        logger.info(`Total ticket amount, ${totalAmount}`);
+        logger.info(`User email, ${userEmail} `)
+
+        return res.status(200).json({ purchase });
+      } catch (error) {
+        console.error("Error:", error);
+        return res.status(500).json({ message: "An error occurred" });
+      }
+    });
   }
-
 }
 
 export const cartsController = new CartsController();

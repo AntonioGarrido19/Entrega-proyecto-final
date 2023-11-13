@@ -2,7 +2,7 @@ import { Router } from "express";
 import { cartsController } from "../controllers/carts.controller.js";
 import { productsController } from "../controllers/products.controller.js";
 import { productsService } from "../services/products.service.js"
-import { ticketsService } from "../services/tickets.service.js";
+import { ticketService } from "../services/tickets.service.js";
 import { jwtValidation } from "../middlewares/jwt.middleware.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 

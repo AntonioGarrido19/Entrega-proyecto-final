@@ -21,7 +21,7 @@ async findUser(req, res) {
   try {
     const user = await usersService.findUser(username);
     if (!user) {
-      throw new CustomError(ErrorMessage.USER_NOT_FOUND);
+     // throw new CustomError(ErrorMessage.USER_NOT_FOUND);
     }
     res.status(200).json({ message: "User found", user });
   } catch (error) {
@@ -32,8 +32,8 @@ async findUser(req, res) {
 
 async create (req, res) {
   const {first_name, last_name, email, password} = req.body
-  if (!first_name || !last_name || email || password) {
-    throw new CustomError(ErrorMessage.USER_MISSING_DATA);
+  if (!first_name || !last_name || !email || password) {
+    //throw new CustomError(ErrorMessage.USER_MISSING_DATA);
   }
   try {
     const createdUser = await usersService.create(req.body);
@@ -48,7 +48,7 @@ async deleteUser (req, res) {
     try {
         const user = await usersService.deleteUser(username);
         if(!user) {
-        throw new CustomError(ErrorMessage.USER_NOT_FOUND);
+        //throw new CustomError(ErrorMessage.USER_NOT_FOUND);
       }
         res.status(200).json({message: 'User deleted', deletedUser: user})
     } catch (error) {

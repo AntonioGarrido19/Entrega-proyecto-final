@@ -1,21 +1,21 @@
 import { ticketsMongo } from "../DAL/managers/ticket/TicketsMongo.js";
+import Randomstring from "randomstring";
 
-class TicketsService {
+class TicketService {
+  async createTicket(totalAmount, userEmail) {
+      const code = Randomstring.generate();
+      const purchase_datetime = new Date();
+      const ticket = {
+        code,
+        purchase_datetime,
+        totalAmount: totalAmount,
+        purchaserEmail: userEmail
+      };
 
-    async create(obj) {
-        const { code, purchase_datetime, amount, purchaser } = req.params
-        if(!code || !purchase_datetime || !amount || purchaser) {
-          return res.status(200).json({ message: "Some data is missing" });
-        }
-        try {        
-          const newTicket = await ticketsMongo.createOne(obj);
-          res.status(200).json({ message: "Ticket created", ticket: newTicket });
-        } catch (error) {
-          res.status(500).json({ error });
-        }
+      const newTicket = await ticketsMongo.createOne(ticket);
+      return newTicket;
+    };
+  }
 
-      }
 
-    }
-
-    export const ticketsService = new TicketsService();
+export const ticketService = new TicketService();

@@ -45,7 +45,6 @@ class AuthenticationController {
           res.redirect("/api/views/products");
         } catch (error) {
           logger.error("Error during user creation or email sending:", error);
-          res.status(500).json({ message: "Error in user creation or email sending" });
         }
       }
 }
