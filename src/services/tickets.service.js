@@ -8,8 +8,8 @@ class TicketService {
       const ticket = {
         code,
         purchase_datetime,
-        totalAmount: totalAmount,
-        purchaserEmail: userEmail
+        amount: totalAmount,
+        purchaser: userEmail
       };
 
       const newTicket = await ticketsMongo.createOne(ticket);

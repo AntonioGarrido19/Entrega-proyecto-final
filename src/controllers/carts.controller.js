@@ -183,17 +183,36 @@ class CartsController {
           }
         });
 
+        let productsWithNoStock = []
+
         // Calculate the total amount for all products in the cart
         const totalAmount = purchase.reduce((acc, product) => {
-          return acc + product.price * product.quantity;
+          if (product.message) {
+            productsWithNoStock.push(product)
+            return acc;
+          } else {
+            return acc + product.price * product.quantity;
+          }
         }, 0);
 
-         // Pass totalAmount and userEmail to the createTicket method
+        const productsIdsWithNoStock = productsWithNoStock.map(product => product.id);
 
-         const newTicket = await ticketService.createTicket(totalAmount, userEmail);
+        // Pass totalAmount and userEmail to the createTicket method
 
-        logger.info(`Total ticket amount, ${totalAmount}`);
-        logger.info(`User email, ${userEmail} `)
+        logger.info(`Total ticket amount: ${totalAmount}`);
+        logger.info(`User email: ${userEmail} `);
+        logger.info(`Products Ids with no stock: ${productsIdsWithNoStock}`)
+
+        const newTicket = await ticketService.createTicket(
+          totalAmount,
+          userEmail
+        );
+
+        const updatedCartData = {
+          products: productsWithNoStock,
+        };
+
+        const updatedPurchaseCart = await cartsService.update(cid, updatedCartData);
 
         return res.status(200).json({ purchase });
       } catch (error) {
