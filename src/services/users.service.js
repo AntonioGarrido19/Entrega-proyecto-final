@@ -30,6 +30,11 @@ async deleteUser (username) {
   return response;
 };
 
+async update(uid, updatedData) {
+  const user = await usersMongo.updateOne(uid, updatedData);
+  return user;
+}
+
 }
 
 export const usersService = new UsersService()

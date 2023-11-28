@@ -1,6 +1,7 @@
 import { usersService} from "../services/users.service.js"
 import CustomError from "../errors/CustomError.js";
 import { ErrorMessage, ErrorName } from "../errors/error.enum.js";
+import { logger } from "../winston.js";
 
 class UsersController {
 
@@ -54,6 +55,24 @@ async deleteUser (req, res) {
     } catch (error) {
         res.status(500).json({message: error.message})
     }
+}
+
+async updateUser(req, res) {
+  const { uid } = req.params;
+  const updatedUserData = req.body;
+  logger.debug(updatedUserData);
+  try {
+    const user = await usersService.update(uid, updatedUserData);
+    if (!user) {
+     // throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
+     return res.status(404).json({ error: "User not found" });
+
+    } else {
+      res.status(200).json({ message: "User found", user });
+    }
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 }
 
 }

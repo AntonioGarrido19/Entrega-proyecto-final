@@ -6,10 +6,8 @@
     <title>Document</title>
   </head>
   <body>
-    {{! <form action="/api/login" method="post" id="loginForm">  
-    }}
     <div class="login_container">
-     <form action="/api/jwt" method="post" id="loginForm" class="login_form">
+      <form action="/api/jwt" method="post" id="loginForm" class="login_form">
         <div class="input_container">
           <label for="username">Username:</label>
           <input
@@ -34,13 +32,22 @@
         onclick="location.href='/api/authentication/githubSignup'"
         class="github_button"
       >
-        GITHUB</button>
+        GITHUB
+      </button>
 
       <div class="options_container">
-      <a href="http://localhost:8080/api/views/signup">Get Register</a>
-        <a href="">Forgot your password?</a>
+        <a href="http://localhost:8080/api/views/signup">Get Register</a>
+        <a href="#" id="forgotPasswordLink">Forgot your password?</a>
       </div>
     </div>
 
+    <script>
+      document.getElementById('forgotPasswordLink').addEventListener('click', function() {
+        // Get the username from the input field
+        const username = document.getElementById('username').value;
+        })
+
+        sessionStorage.setItem('username', username);
+    </script>
   </body>
 </html>

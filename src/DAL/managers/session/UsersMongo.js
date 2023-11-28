@@ -30,6 +30,16 @@ class UsersManager {
             return error
         }
     }
+
+    async updateUser(uid, updatedData){
+        try {
+            const updatedUser = await usersModel.updateOne({_id:uid}, { $set: updatedData })
+            return updatedUser
+        } catch (error) {
+            return error;
+
+        }
+    }
 }
 
 export const usersManager = new UsersManager()

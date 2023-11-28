@@ -47,6 +47,8 @@ class AuthenticationController {
           logger.error("Error during user creation or email sending:", error);
         }
       }
+
+      
 }
 
 export const authenticationController = new AuthenticationController()

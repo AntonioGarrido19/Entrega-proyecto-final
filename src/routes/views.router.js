@@ -89,4 +89,8 @@ router.get("/logout", (req, res) => {
   res.redirect("/api/views/login");
 });
 
+router.get("/passwordrestore", (req, res)=>{
+  res.render("passwordRestore")
+})
+
 export default router;

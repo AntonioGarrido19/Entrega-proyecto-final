@@ -16,7 +16,9 @@ import CustomError from "./errors/CustomError.js"
 import { errorMiddleware } from "./errors/error.middleware.js";
 import {logger} from "./winston.js"
 import swaggerJSDoc from "swagger-jsdoc";
+import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express'
+import path from 'path';
 
 import productsRouter from "./routes/products.router.mongo.js";
 import cartsRouter from "./routes/carts.router.mongo.js";
@@ -123,19 +125,20 @@ app.get("/api/mockingProducts", (req, res) => {
 
 
 //SWAGGER
-// const swaggerOptions = {
-//   definition: {
-//     openapi: "3.0.1",
-//     info:{
-//       title:"Documentacion de E-commerce",
-//       description: "API rest de e-commerce",
-//     },
-//   },
-//   apis: [`${path.join(__dirname, "../docs/**/*.yaml")}`]
-// };
-// const specs = swaggerJSDoc(swaggerOptions);
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info:{
+      title:"E-commerce API",
+      description: "API for an e-commerce application",
+    },
+  },
+  apis: [`${path.join(__dirname, "/docs/**/*.yaml")}`],
+};
+const specs = swaggerJSDoc(swaggerOptions);
 
-// app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+console.log(__dirname);
+app.use('/api/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 
 const socketServer = new Server(httpServer);
