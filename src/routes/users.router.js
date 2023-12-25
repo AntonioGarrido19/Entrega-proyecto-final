@@ -6,6 +6,20 @@ import { usersController } from "../controllers/users.controller.js";
 const router = Router();
 
 router.get(
+  "/",
+  jwtValidation,
+  authMiddleware("admin"),
+  usersController.getUsers
+);
+
+router.delete(
+  "/",
+  jwtValidation,
+  authMiddleware("admin"),
+  usersController.getUsers
+);
+
+router.get(
   "/:username",
   jwtValidation,
   authMiddleware("user"),
@@ -29,5 +43,7 @@ router.delete(
   authMiddleware("admin"),
   usersController.deleteUser
 );
+
+router.put("/:uid", usersController.updateUser);
 
 export default router;

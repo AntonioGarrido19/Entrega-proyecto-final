@@ -11,9 +11,10 @@ const router = Router();
 //sin cookies
 router.post("/", jwtController.jwtLogin);
 
-router.get('/validation', jwtValidation, (req,res)=>{
+
+router.get('/validation', jwtValidation, (req, res) => {
   res.json({message:'Probando',user:req.user})
-})
+});
 
 //con cookies
 // router.post("/", async (req, res) => {

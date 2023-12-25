@@ -2,9 +2,15 @@ import { usersManager } from "../DAL/managers/session/UsersMongo.js"
 import UsersDTO from "../DAL/DTOs/user.dto.js"
 import { hashData } from "../utils.js";
 import { logger } from "../winston.js";
+import { usersModel } from "../DAL/mongoDB/models/users-model.js";
 
 
 class UsersService {
+
+    async findAll() {
+      const users = await usersManager.findAll();
+      return users;
+    }
 
 async findUser (username) {
   const users = await usersManager.findUser(username);
@@ -14,6 +20,7 @@ async findUser (username) {
 
 async create (user) {
   const newUser = await usersManager.create(user);
+  logger.debug(newUser)
   return newUser;
 };
 
@@ -30,11 +37,22 @@ async deleteUser (username) {
   return response;
 };
 
-async update(uid, updatedData) {
-  const user = await usersMongo.updateOne(uid, updatedData);
-  return user;
-}
+async updateUser(uid, updatedData) {
+  try {
+    const updatedUser = await usersModel.findOneAndUpdate(
+      { _id: uid },
+      { $set: updatedData },
+      { new: true }
+    );
 
+    logger.warning(updatedUser)
+    return updatedUser;
+
+  } catch (error) {
+    console.log('Error:', error);
+    return error;
+  }
+}
 }
 
 export const usersService = new UsersService()

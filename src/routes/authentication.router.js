@@ -15,11 +15,15 @@ router.get('/githubSignup', passport.authenticate('github', { scope: [ 'user:ema
 
 router.get('/github', passport.authenticate('github',{failureRedirect: '/api/views/login'}), async (req, res)=>
 {
-    const username = req.user.username
+    console.log('GitHub Auth User:', req.user);
+    //const username = req.user.username
     //req.session.user = req.user
     //req.session['username'] = req.user.username
+    req.session.username = req.user.username;
     res.redirect('/api/views/products')
 })
+
+router.post('/passwordRestore/:username', authenticationController.restorePassword)
 
 // router.get(
 //     '/jwtAuth',

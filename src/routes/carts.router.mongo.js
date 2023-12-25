@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { cartsController } from "../controllers/carts.controller.js";
 import { productsController } from "../controllers/products.controller.js";
-import { productsService } from "../services/products.service.js"
+import { productsService } from "../services/products.service.js";
 import { ticketService } from "../services/tickets.service.js";
 import { jwtValidation } from "../middlewares/jwt.middleware.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
@@ -17,14 +17,16 @@ router.post(
   cartsController.createCart
 );
 
-router.get("/purchase/:cid", 
-cartsController.getCartAndProducts
-)
-
+router.get("/purchase/:cid", cartsController.getCartAndProducts);
 
 router.get("/:cid", cartsController.getCartById);
 
-router.delete("/:cid", cartsController.deleteCart);
+router.delete(
+  "/:cid",
+  jwtValidation,
+  authMiddleware("user"),
+  cartsController.deleteCart
+);
 
 router.delete(
   "/:idCart/products/:idProduct",

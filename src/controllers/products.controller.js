@@ -16,7 +16,7 @@ class ProductsController {
   async createProduct(req, res) {
     const { title, description, price, thumbnail, code, stock } = req.body;
     if (!title || !description || !price || !thumbnail || !code || !stock) {
-      //throw new CustomError(ErrorMessage.PRODUCT_MISSING_DATA);
+      throw new CustomError(ErrorMessage.PRODUCT_MISSING_DATA);
       //return res.status(400).json({ error: "Product data is incomplete" });
 
     }
@@ -33,12 +33,12 @@ class ProductsController {
     try {
       const product = await productsService.findById(pid);
       if (!product) {
-        //throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
-        return res.status(404).json({ error: "Product not found" });
+        throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
+        //return res.status(404).json({ error: "Product not found" });
 
-      } else {
+      } 
         res.status(200).json({ message: "Product found", product });
-      }
+      
     } catch (error) {
       res.status(500).json({ error });
     }
@@ -51,8 +51,8 @@ class ProductsController {
     try {
       const product = await productsService.update(pid, updatedProductData);
       if (!product) {
-       // throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
-       return res.status(404).json({ error: "Product not found" });
+        throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
+       //return res.status(404).json({ error: "Product not found" });
 
       } else {
         res.status(200).json({ message: "Product found", product });
@@ -67,8 +67,8 @@ class ProductsController {
     try {
       const product = await productsService.deleteOne(pid);
       if (!product) {
-       // throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
-       return res.status(404).json({ error: "Product not found" });
+       throw new CustomError(ErrorMessage.PRODUCT_NOT_FOUND);
+      // return res.status(404).json({ error: "Product not found" });
 
       } else {
         res.status(200).json({ message: "Product Deleted", product });

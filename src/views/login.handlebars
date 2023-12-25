@@ -7,7 +7,13 @@
   </head>
   <body>
     <div class="login_container">
-      <form action="/api/jwt" method="post" id="loginForm" class="login_form">
+      <form
+        action="/api/jwt"
+        method="post"
+        id="loginForm"
+        class="login_form"
+        onsubmit="prepareForm(event)"
+      >
         <div class="input_container">
           <label for="username">Username:</label>
           <input
@@ -15,10 +21,11 @@
             name="username"
             id="username"
             placeholder="username"
+            oninput="updateRestoreForm()"
           />
         </div>
         <div class="input_container">
-          <label for="password"> Password:</label>
+          <label for="password">Password:</label>
           <input
             type="password"
             name="password"
@@ -34,20 +41,39 @@
       >
         GITHUB
       </button>
-
       <div class="options_container">
-        <a href="http://localhost:8080/api/views/signup">Get Register</a>
-        <a href="#" id="forgotPasswordLink">Forgot your password?</a>
+        <a href="http://localhost:8080/api/views/signup">GetRegister</a>
+        <form
+          action="/api/mailer/restore"
+          method="get"
+          id="restoreForm"
+          class="restore_form"
+        >
+          <input
+            type="hidden"
+            name="usernameRestore"
+            id="usernameRestore"
+          />
+          <input
+            type="submit"
+            value="Forgot your password?"
+            class="restore_button"
+          />
+        </form>
       </div>
     </div>
 
     <script>
-      document.getElementById('forgotPasswordLink').addEventListener('click', function() {
-        // Get the username from the input field
-        const username = document.getElementById('username').value;
-        })
+      function updateRestoreForm() {
+        // Get the username value
+        var username = document.getElementById("username").value;
 
-        sessionStorage.setItem('username', username);
+        // Set the username value in the hidden input field of the restoreForm
+        document.getElementById("usernameRestore").value = username;
+
+        console.log(username);
+
+      }
     </script>
   </body>
 </html>

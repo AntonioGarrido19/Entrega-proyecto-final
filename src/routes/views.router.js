@@ -19,9 +19,10 @@ router.get("/products", async (req, res) => {
       code: e.code,
       stock: e.stock,
     }));
-  
+    
+    const username = req.session.username || 'Guest';
 
-    res.render("home", { payloadArrayMap }); //username
+    res.render("home", { payloadArrayMap, username }); //username
   } catch (error) {
     res.status(500).json({ error });
   }

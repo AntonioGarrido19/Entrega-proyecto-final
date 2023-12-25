@@ -1,23 +1,56 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <title>Products</title>
+  <head>
+    <title>Products</title>
     <script src="/socket.io/socket.io.js"></script>
-</head>
-<body>
-  <h2>All Products</h2>
-      <p>Welcome {{username}}! What are you looking for today?</p>
-  <ul>
-    {{#each payloadArrayMap}}
-      <li>
-        Product: {{title}} - Description: {{description}} - Price: ${{price}} - 
-        <button data-product-id={{_id}}>Add to Cart</button> 
-        <button data-product-id={{_id}}>Product Details</button>
-      </li>
-    {{/each}}
-  </ul>
- <button><a href="http://localhost:8080/api/views/logout">LOG OUT</a></button>
-  
+  </head>
+  <body>
+    <h2>All Products</h2>
+    <p>Welcome {{username}}! What are you looking for today?</p>
+    <ul>
+      {{#each payloadArrayMap}}
+        <li>
+          Product:
+          {{title}}
+          - Description:
+          {{description}}
+          - Price: ${{price}}
+          -
+          <button data-product-id={{_id}} onclick="addToCart('{{_id}}')">Add to Cart</button>
+          <button><a href="http://localhost:8080/api/views/product-view/{{_id}}">Product Details</a></button>
+        </li>
+      {{/each}}
+    </ul>
+    <button><a href="http://localhost:8080/api/views/logout">LOG OUT</a></button>
+    <button><a href="http://localhost:8080/api/views/cart">Cart</a></button>
 
-</body>
+
+     <script>
+    async function addToCart(productId) {
+      try {
+        const response = await fetch('http://localhost:8080/api/carts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+       
+          },
+          body: JSON.stringify({
+            productId: productId,
+            // Add any other relevant data needed for your cart creation
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to add the product to the cart');
+        }
+
+        // Optionally, handle the response or update the UI
+        console.log('Product added to the cart successfully');
+      } catch (error) {
+        console.error('Error adding product to the cart:', error.message);
+        // Optionally, display an error to the user
+      }
+    }
+  </script>
+
+  </body>
 </html>

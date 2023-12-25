@@ -4,6 +4,7 @@ import { logger } from "../winston.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 import { jwtValidation } from "../middlewares/jwt.middleware.js";
 import { usersController } from "../controllers/users.controller.js";
+import { usersService } from "../services/users.service.js";
 import crypto from 'crypto'
 
 const router = Router();
@@ -22,19 +23,21 @@ router.get("/", jwtValidation, authMiddleware("user"), async (req, res) => {
 });
 
 
-router.get('/restore', authMiddleware('user'), async (req, res) => {
-  const {username} = req.body;
+router.get('/restore', async (req, res) => {
+  const {usernameRestore} = req.query;
+  logger.warning('Username:', usernameRestore);
 
-  // Generate a unique token for password reset
-  const resetToken = crypto.randomBytes(20).toString('hex');
+  if (!usernameRestore) {
+    return res.status(400).json({ error: 'Username is required in the query parameters' });
+  }
 
-  userData = await usersService.findUser(username);
+  const userData = await usersService.findUser(usernameRestore);
 
-  // Store the token in the database or in-memory store with user identifier (email, user ID, etc.)
-  // For simplicity, let's assume you have a users collection in MongoDB
-  await usersController.updateOne({ email: userData.email }, { $set: { resetToken } });
+  logger.warning('UserData', userData)
 
-  const resetLink = `http://localhost:8080/api/views/passwordrestore?token=${resetToken}`;
+ 
+
+  const resetLink = `http://localhost:8080/api/views/passwordrestore?username=${usernameRestore}`;
   const messageOpt = {
     from: 'E-Commerce',
     to: userData.email,

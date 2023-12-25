@@ -17,6 +17,12 @@ try {
 }
 
 
+export const generateAuthToken = (userData) => {
+    const token = jwt.sign({ user: userData }, secretKey);
+    return token;
+  };
+
+
 
 // //con cookies
 // export const jwtValidation = (req,res,next)=>{

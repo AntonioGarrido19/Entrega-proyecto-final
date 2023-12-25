@@ -3,6 +3,16 @@ import { usersModel } from "../../mongoDB/models/users-model.js";
 
 class UsersManager {
 
+
+    async findAll() {
+        try {
+          const users = await usersModel.find({})
+          return users;
+        } catch (error) {
+          return error;
+        }
+      }
+
     async findUser(username){
         try {
             const user = await usersModel.findOne({username})

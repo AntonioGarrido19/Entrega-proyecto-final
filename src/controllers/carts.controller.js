@@ -26,8 +26,8 @@ class CartsController {
   async createCart(req, res) {
     const { products } = req.body;
     if (!products) {
-      //throw new CustomError(ErrorMessage.CART_MISSING_DATA);
-      return res.status(400).json({ error: "Cart data is incomplete" });
+      throw new CustomError(ErrorMessage.CART_MISSING_DATA);
+      //return res.status(400).json({ error: "Cart data is incomplete" });
     }
     try {
       const newCart = await cartsService.create(req.body);
@@ -43,8 +43,8 @@ class CartsController {
     try {
       const cart = await cartsService.findById(cid);
       if (!cart) {
-        // throw new CustomError(ErrorMessage.CART_NOT_FOUND);
-        return res.status(400).json({ error: "Product not found" });
+         throw new CustomError(ErrorMessage.CART_NOT_FOUND);
+         //res.status(400).json({ error: "Product not found" });
       } else {
         res.status(200).json({ message: "Cart found", cart });
       }
@@ -57,8 +57,8 @@ class CartsController {
     const { cid } = req.params;
     const deleteOneCart = await cartsService.deleteOne(cid);
     if (!deleteOneCart) {
-      // throw new CustomError(ErrorMessage.CART_NOT_FOUND);
-      return res.status(400).json({ error: "Cart not found" });
+        throw new CustomError(ErrorMessage.CART_NOT_FOUND);
+      //return res.status(400).json({ error: "Cart not found" });
     } else {
       res.status(200).json({ message: "Cart Deleted", deleteOneCart });
     }

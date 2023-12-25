@@ -4,6 +4,8 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GithubStrategy } from "passport-github2";
 import { ExtractJwt, Strategy as JWTStrategy } from 'passport-jwt'
 import { usersManager } from "../DAL/managers/session/UsersMongo.js";
+import { usersService } from "../services/users.service.js";
+import { usersController } from "../controllers/users.controller.js";
 import { compareData } from "../utils.js";
 
 
@@ -51,10 +53,11 @@ passport.use(
     {
       clientID: "Iv1.8e91905a6a017ab4",
       clientSecret: "45fadcd2c3ee3e4983760ac1aa5f1e45dc224879",
-      callbackURL: "http://localhost:8080/api/users/github",
+      callbackURL: "http://localhost:8080/api/authentication/github",
     },
     async function (accessToken, refreshToken, profile, done) {
-      try {
+    
+     try {
         const userExists = await usersManager.findUser(profile.username)
         if(userExists){
           if(userExists.fromGithub){
@@ -79,6 +82,8 @@ passport.use(
     }
   )
 );
+
+
 
 
 
