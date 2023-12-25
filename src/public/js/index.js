@@ -14,24 +14,27 @@ const productsContainer = document.getElementById("products_container");
 const deleteForm = document.getElementById("delete_product");
 const productId = document.getElementById("product_id");
 
+//REAL TIME PRODUCTS
+
+socketClient.emit("getProducts");
 
 socketClient.on("products", (products) => {
-  //console.log(products);
-  const allProducts = products
-    .map((objProducts) => {
-      return `
-      <div data-product-id="${objProducts.id}">
+  console.log('products:', products);
+  // console.log(products[0].results)
+    const allProducts = products.info.payload
+      .map((objProducts) => {
+        return `
+      <div data-product-id="${objProducts._id}">
         <p>
         Product: ${objProducts.title}
         Description: ${objProducts.description}
         Price: ${objProducts.price}
-        Id: ${objProducts.id}
+        Id: ${objProducts._id}
         </p>
         </div>`;
-    })
-    .join(" ");
-  productsContainer.innerHTML = allProducts;
-
+      })
+      .join(" ");
+    productsContainer.innerHTML = allProducts;
 });
 
 addForm.onsubmit = (e) => {
@@ -54,11 +57,12 @@ addForm.onsubmit = (e) => {
 socketClient.on("added", (product) => {
   const addedProductHTML = `
       <p>
-      Product: ${product.title}
-      Description: ${product.description}
-      Price: ${product.price}
-      Id: ${product.id}
+        Product: ${newProduct.title}
+        Description: ${newProduct.description}
+        Price: ${newProduct.price}
+        ID: ${newProduct._id}
       </p>`;
+
   productsContainer.innerHTML += addedProductHTML;
 });
 
@@ -74,8 +78,12 @@ deleteForm.onsubmit = (e) => {
 };
 
 socketClient.on("deleted", (deletedProductId) => {
-  const productToDelete = document.querySelector(`[data-product-id="${deletedProductId}"]`)
+  const productToDelete = document.querySelector(
+    `[data-product-id="${deletedProductId}"]`
+  );
   if (productToDelete) {
     productToDelete.remove();
   }
-})
+});
+
+

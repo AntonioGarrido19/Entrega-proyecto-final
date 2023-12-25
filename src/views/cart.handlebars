@@ -1,0 +1,24 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart</title>
+  </head>
+  <body>
+    <h1>Cart</h1>
+      <ul>
+    {{#each products}}
+    <li>
+      <h2>{{_id.title}}</h2>
+      <p>Price: {{_id.price}}</p>
+      <p>Description: {{_id.description}}</p>
+      <p>Code: {{_id.code}}</p>
+      <p>Stock: {{_id.stock}}</p>
+      <p>Quantity: {{_id.quantity}}</p>
+    </li>
+    {{/each}}
+  </ul>
+
+    <script src="/socket.io/socket.io.js"></script>
+  </body>
+</html>
